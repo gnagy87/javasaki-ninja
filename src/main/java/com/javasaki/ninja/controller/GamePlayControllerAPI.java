@@ -60,7 +60,7 @@ public class GamePlayControllerAPI {
       return ResponseEntity.status(200).body(new PrizeDTO("You won", ninjaHeroService.dailyBonus(
           userNinjaService.getIdFromToken(request))));
     } catch (TimeException e) {
-      return ResponseEntity.status(409).body(e.getMessage());
+      return ResponseEntity.status(409).body(new PrizeDTO(e.getMessage(), 0));
     }
   }
 }
