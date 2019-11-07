@@ -1,11 +1,13 @@
 package com.javasaki.ninja.user;
 
+import com.javasaki.ninja.dto.ChallengerDTO;
 import com.javasaki.ninja.ninja.NinjaHero;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -23,6 +25,8 @@ public class UserNinja {
 
   @OneToOne(cascade = CascadeType.ALL, mappedBy = "userNinja")
   private NinjaHero ninjaHero;
+
+  private List<ChallengerDTO> challengers;
 
   public UserNinja() {
     this.isEnable = false;
