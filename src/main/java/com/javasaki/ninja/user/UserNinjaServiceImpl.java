@@ -71,7 +71,6 @@ public class UserNinjaServiceImpl implements UserNinjaService {
     UserNinja user = new UserNinja(registerDTO.getUsername(), encoder.encode(registerDTO.getPassword()), registerDTO.getEmail());
     user.setNinjaHero(hero);
     hero.setUserNinja(user);
-    user.setEnable(true);
     return userNinjaRepository.save(user);
   }
 
