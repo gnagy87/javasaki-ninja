@@ -25,6 +25,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     }
     int prize = bonusMoney();
     ninja.setMoney(ninja.getMoney() + prize);
+    ninja.setDailyBonusTime(java.time.Instant.now().getEpochSecond() + 86400);
     ninjaHeroRepository.save(ninja);
     return prize;
   }
