@@ -18,6 +18,11 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   }
 
   @Override
+  public NinjaHero findNinjaById(long id) {
+    return ninjaHeroRepository.findById(id).get();
+  }
+
+  @Override
   public int dailyBonus(long id) throws TimeException {
     NinjaHero ninja = ninjaHeroRepository.findById(id).get();
     if (!timeService.expiredOtNot(ninja.getDailyBonusTime())) {

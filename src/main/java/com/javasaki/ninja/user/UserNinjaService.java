@@ -6,6 +6,7 @@ import com.javasaki.ninja.email.VerificationToken;
 import com.javasaki.ninja.exception.EmailVerificationException;
 import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.exception.UserNinjaException;
+import com.javasaki.ninja.exception.WeaponException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,9 +14,9 @@ public interface UserNinjaService {
 
   boolean isUserExists(String username);
 
-  RegisterResponseDTO registration(RegisterDTO registerDTO) throws UserNinjaException, NinjaException;
+  RegisterResponseDTO registration(RegisterDTO registerDTO) throws UserNinjaException, NinjaException, WeaponException;
 
-  UserNinja saveUserNinja(RegisterDTO registerDTO) throws NinjaException;
+  UserNinja saveUserNinja(RegisterDTO registerDTO) throws NinjaException, WeaponException;
 
   UserNinja findUserNinjaByUsername(String username);
 

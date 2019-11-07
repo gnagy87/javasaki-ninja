@@ -7,15 +7,17 @@ import com.javasaki.ninja.email.VerificationToken;
 import com.javasaki.ninja.exception.EmailVerificationException;
 import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.exception.UserNinjaException;
+import com.javasaki.ninja.exception.WeaponException;
 import com.javasaki.ninja.factory.Factory;
 import com.javasaki.ninja.ninja.NinjaHero;
+import com.javasaki.ninja.weapon.Weapon;
 import com.javasaki.ninja.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.UUID;
 
 @Service
@@ -45,7 +47,7 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   }
 
   @Override
-  public RegisterResponseDTO registration(RegisterDTO registerDTO) throws UserNinjaException, NinjaException {
+  public RegisterResponseDTO registration(RegisterDTO registerDTO) throws UserNinjaException, NinjaException, WeaponException {
     if (!isUserExists(registerDTO.getUsername())) {
       UserNinja userNinja = saveUserNinja(registerDTO);
 
@@ -59,8 +61,13 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   }
 
   @Override
-  public UserNinja saveUserNinja(RegisterDTO registerDTO) throws NinjaException {
+  public UserNinja saveUserNinja(RegisterDTO registerDTO) throws NinjaException, WeaponException {
     NinjaHero hero = factory.createNinja(registerDTO.getHeroType(), registerDTO.getHeroName());
+    List<Weapon> weapons = new ArrayList<>();
+    Weapon weapon = factory.createWeapon("suriken");
+    weapon.setNinjaHero(hero);
+    weapons.add(weapon);
+    hero.setWeapons(weapons);
     UserNinja user = new UserNinja(registerDTO.getUsername(), encoder.encode(registerDTO.getPassword()), registerDTO.getEmail());
     user.setNinjaHero(hero);
     hero.setUserNinja(user);
