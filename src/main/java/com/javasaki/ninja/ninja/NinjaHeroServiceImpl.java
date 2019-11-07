@@ -68,9 +68,9 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
 
   @Override
   public NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException {
-    NinjaHero ninjaHero = ninjaHeroRepository.findById(id).get();
+    NinjaHero ninjaHero = ninjaHeroRepository.findNinjaHeroByUserNinjaId(id);
 
-    if (!timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
+    if (timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
       if (trainDTO.getTrain().equals("offence")) {
         improveOffence(ninjaHero);
       }
@@ -89,22 +89,19 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     throw new NinjaException("You can't train, because you have another activity!");
   }
 
-  @Override
-  public NinjaDTO improveOffence(NinjaHero ninjaHero) {
+  private NinjaDTO improveOffence(NinjaHero ninjaHero) {
     ninjaHero.setHp(ninjaHero.getHp() + 1);
     ninjaHero.setOffence(ninjaHero.getOffence() + 3);
     return new NinjaDTO(ninjaHero);
   }
 
-  @Override
-  public NinjaDTO improveDefence(NinjaHero ninjaHero) {
+  private NinjaDTO improveDefence(NinjaHero ninjaHero) {
     ninjaHero.setHp(ninjaHero.getHp() + 1);
     ninjaHero.setDefence(ninjaHero.getDefence() + 3);
     return new NinjaDTO(ninjaHero);
   }
 
-  @Override
-  public NinjaDTO improveSpeed(NinjaHero ninjaHero) {
+  private NinjaDTO improveSpeed(NinjaHero ninjaHero) {
     ninjaHero.setHp(ninjaHero.getHp() + 1);
     ninjaHero.setSpeed(ninjaHero.getSpeed() + 3);
     return new NinjaDTO(ninjaHero);

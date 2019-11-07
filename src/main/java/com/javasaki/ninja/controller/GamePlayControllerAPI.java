@@ -36,8 +36,7 @@ public class GamePlayControllerAPI {
   public ResponseEntity performRobbery(HttpServletRequest request) {
 
     try {
-      PrizeDTO prizeDTO = ninjaHeroService.performRobberyByUserId(jwtProvider.getIdFromToken(
-          request.getHeader("Authorization").substring(7)));
+      PrizeDTO prizeDTO = ninjaHeroService.performRobberyByUserId(userNinjaService.getIdFromToken(request));
       return ResponseEntity.status(200).body(prizeDTO);
     } catch (Exception e) {
       return ResponseEntity.status(400).body(new RobberyError(

@@ -16,10 +16,4 @@ public interface NinjaHeroService {
 
   NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException;
 
-  NinjaDTO improveOffence(NinjaHero ninjaHero);
-
-  NinjaDTO improveDefence(NinjaHero ninjaHero);
-
-  NinjaDTO improveSpeed(NinjaHero ninjaHero);
-
 }
