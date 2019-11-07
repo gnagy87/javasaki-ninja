@@ -73,7 +73,7 @@ public class UserNinjaControllerAPI {
       }
 
       SecurityContextHolder.getContext().setAuthentication(authentication);
-      String token = jwtProvider.generateJwtToken(loginDTO.getUsername());
+      String token = jwtProvider.generateJwtToken(userNinjaService.findUserNinjaByUsername(loginDTO.getUsername()));
       return ResponseEntity.status(200).body(new LoginResponseDTO("login successfully", token));
     } catch (Exception err) {
       return ResponseEntity.status(401).body("Wrong password");

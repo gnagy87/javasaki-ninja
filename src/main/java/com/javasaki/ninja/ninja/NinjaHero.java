@@ -27,6 +27,7 @@ public abstract class NinjaHero {
   private boolean isInJail;
   private boolean isTraining;
   private long finishedAt;
+  private long dailyBonusTime;
 
   @OneToOne
   private UserNinja userNinja;
@@ -42,6 +43,7 @@ public abstract class NinjaHero {
     this.isInJail = false;
     this.isTraining = false;
     this.finishedAt = java.time.Instant.now().getEpochSecond();
+    this.dailyBonusTime = java.time.Instant.now().getEpochSecond();
   }
 
   public void addWeapon(Weapon weapon) {
