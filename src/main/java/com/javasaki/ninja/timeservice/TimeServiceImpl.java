@@ -9,8 +9,8 @@ import java.util.Calendar;
 public class TimeServiceImpl implements TimeService {
 
   @Override
-  public long expiredOtNot(Long finishedAt) {
-    return java.time.Instant.now().getEpochSecond() - finishedAt;
+  public boolean expiredOtNot(Long finishedAt) {
+    return java.time.Instant.now().getEpochSecond() - finishedAt > 0;
   }
 
   @Override
