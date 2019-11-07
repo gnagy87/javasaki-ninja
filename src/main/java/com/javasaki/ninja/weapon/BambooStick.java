@@ -3,7 +3,7 @@ package com.javasaki.ninja.weapon;
 import javax.persistence.Entity;
 
 @Entity
-public class BambooStick extends Weapon{
+public class BambooStick extends Weapon {
 
   public BambooStick() {
     super("Bamboostick");

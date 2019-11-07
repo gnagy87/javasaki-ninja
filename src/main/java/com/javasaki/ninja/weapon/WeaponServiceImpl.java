@@ -16,8 +16,6 @@ public class WeaponServiceImpl implements WeaponService {
 
   @Override
   public Weapon findWeaponByType(String type) throws WeaponException {
-    return weaponRepository.findWeaponByWeaponType(type).orElseThrow(
-            () -> new WeaponException("There is no such weapon!")
-    );
+    return weaponRepository.findWeaponByWeaponType(type).orElseThrow(() -> new WeaponException("There is no such weapon!"));
   }
 }

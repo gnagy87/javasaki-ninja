@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ArmorServiceImpl implements ArmorService{
+public class ArmorServiceImpl implements ArmorService {
 
   private ArmorRepository armorRepository;
 
@@ -16,7 +16,6 @@ public class ArmorServiceImpl implements ArmorService{
 
   @Override
   public Armor findArmorByType(String type) throws ArmorException {
-    return armorRepository.findArmorByType(type).orElseThrow(
-            () -> new ArmorException("There is no such armor!"));
+    return armorRepository.findArmorByType(type).orElseThrow(() -> new ArmorException("There is no such armor!"));
   }
 }

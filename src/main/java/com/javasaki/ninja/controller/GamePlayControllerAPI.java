@@ -2,7 +2,6 @@ package com.javasaki.ninja.controller;
 
 import com.javasaki.ninja.dto.*;
 import com.javasaki.ninja.errors.RobberyError;
-import com.javasaki.ninja.exception.EquipmentException;
 import com.javasaki.ninja.exception.MoneyException;
 import com.javasaki.ninja.exception.TimeException;
 import com.javasaki.ninja.exception.NinjaException;
