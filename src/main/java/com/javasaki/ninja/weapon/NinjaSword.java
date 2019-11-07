@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 public class NinjaSword extends Weapon {
 
   public NinjaSword() {
-    super("Ninja Sword");
+    super("Ninjasword");
     super.damage = 10;
     super.offense = 15;
     super.defense = 20;

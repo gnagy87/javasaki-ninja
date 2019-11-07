@@ -1,11 +1,7 @@
 package com.javasaki.ninja.ninja;
 
-import com.javasaki.ninja.dto.NinjaDTO;
-import com.javasaki.ninja.dto.TrainDTO;
-import com.javasaki.ninja.exception.MoneyException;
-import com.javasaki.ninja.exception.NinjaException;
-import com.javasaki.ninja.dto.PrizeDTO;
-import com.javasaki.ninja.exception.TimeException;
+import com.javasaki.ninja.dto.*;
+import com.javasaki.ninja.exception.*;
 
 public interface NinjaHeroService {
 
@@ -17,4 +13,9 @@ public interface NinjaHeroService {
 
   NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException, MoneyException;
 
+  void setEquipment(NinjaHero ninjaHero, EquipmentDTO equipmentDTO) throws ArmorException, WeaponException;
+
+  void setArmomr(NinjaHero ninjaHero, String type) throws ArmorException;
+
+  void setWeapon(NinjaHero ninjaHero, String type) throws WeaponException;
 }

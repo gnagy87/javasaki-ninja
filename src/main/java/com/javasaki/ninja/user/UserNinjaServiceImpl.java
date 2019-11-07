@@ -67,6 +67,7 @@ public class UserNinjaServiceImpl implements UserNinjaService {
     List<Weapon> weapons = new ArrayList<>();
     Weapon weapon = factory.createWeapon("bamboo");
     weapon.setNinjaHero(hero);
+    weapon.setUsed(true);
     weapons.add(weapon);
     hero.setWeapons(weapons);
     UserNinja user = new UserNinja(registerDTO.getUsername(), encoder.encode(registerDTO.getPassword()), registerDTO.getEmail());

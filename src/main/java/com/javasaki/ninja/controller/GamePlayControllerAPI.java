@@ -1,12 +1,12 @@
 package com.javasaki.ninja.controller;
 
-import com.javasaki.ninja.dto.PrizeDTO;
+import com.javasaki.ninja.dto.*;
 import com.javasaki.ninja.errors.RobberyError;
+import com.javasaki.ninja.exception.EquipmentException;
 import com.javasaki.ninja.exception.MoneyException;
 import com.javasaki.ninja.exception.TimeException;
-import com.javasaki.ninja.dto.NinjaDTO;
-import com.javasaki.ninja.dto.TrainDTO;
 import com.javasaki.ninja.exception.NinjaException;
+import com.javasaki.ninja.ninja.NinjaHero;
 import com.javasaki.ninja.ninja.NinjaHeroService;
 import com.javasaki.ninja.security.JwtProvider;
 import com.javasaki.ninja.user.UserNinjaService;
@@ -72,6 +72,17 @@ public class GamePlayControllerAPI {
       return ResponseEntity.status(200).body(ninjaDTO);
     } catch (NinjaException | MoneyException e) {
       return ResponseEntity.status(400).body(e.getMessage());
+    }
+  }
+
+  @PutMapping("/equipment")
+  public ResponseEntity setupEquipment(HttpServletRequest request, @RequestBody EquipmentDTO equipmentDTO) {
+    try {
+      NinjaHero hero = ninjaHeroService.findNinjaById(userNinjaService.getIdFromToken(request));
+      ninjaHeroService.setEquipment(hero, equipmentDTO);
+      return ResponseEntity.status(200).body(new EquipmentResponseDTO());
+    } catch (Exception err) {
+      return ResponseEntity.status(400).body(err.getMessage());
     }
   }
 }

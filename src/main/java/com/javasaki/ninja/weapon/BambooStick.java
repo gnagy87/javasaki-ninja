@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 public class BambooStick extends Weapon{
 
   public BambooStick() {
-    super("Bamboo stick");
+    super("Bamboostick");
     super.damage = 3;
     super.offense = 5;
     super.defense = 6;
