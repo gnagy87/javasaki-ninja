@@ -9,7 +9,7 @@ import java.util.Calendar;
 public class TimeServiceImpl implements TimeService {
 
   @Override
-  public boolean expiredOtNot(Long finishedAt) {
+  public boolean expiredOrNot(Long finishedAt) {
     return java.time.Instant.now().getEpochSecond() - finishedAt > 0;
   }
 
