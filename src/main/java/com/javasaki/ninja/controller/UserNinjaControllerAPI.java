@@ -22,7 +22,7 @@ public class UserNinjaControllerAPI {
   }
 
   @PostMapping("/login")
-  public ResponseEntity legin(@RequestBody LoginDTO loginDTO) {
+  public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
     try {
       return ResponseEntity.status(200).body(new LoginResponseDTO("ok","login successfully", ""));
     } catch (Exception err) {
