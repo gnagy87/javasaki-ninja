@@ -1,14 +1,12 @@
-package com.javasaki.ninja.character;
+package com.javasaki.ninja.ninja;
 
 import com.javasaki.ninja.user.UserNinja;
+import com.javasaki.ninja.weapon.Weapon;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.OneToOne;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,6 +29,9 @@ public abstract class NinjaHero {
 
   @OneToOne
   private UserNinja userNinja;
+
+  @OneToMany
+  private List<Weapon> weapons;
 
   public NinjaHero() {
   }
