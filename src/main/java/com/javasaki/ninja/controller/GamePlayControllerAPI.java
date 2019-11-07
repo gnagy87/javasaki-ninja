@@ -38,7 +38,8 @@ public class GamePlayControllerAPI {
           request.getHeader("Authorization").substring(7)));
       return ResponseEntity.status(200).body(prizeDTO);
     } catch (Exception e) {
-      return ResponseEntity.status(400).body(new RobberyError("Unable to perform this activity.", e.getMessage())) ;
+      return ResponseEntity.status(400).body(new RobberyError(
+          "Unable to perform this activity.", e.getMessage()));
     }
   }
 
