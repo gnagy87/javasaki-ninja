@@ -31,7 +31,7 @@ public abstract class NinjaHero {
   @OneToOne
   private UserNinja userNinja;
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "ninjaHero")
   private List<Weapon> weapons;
 
   public NinjaHero() {
@@ -42,5 +42,9 @@ public abstract class NinjaHero {
     this.isInJail = false;
     this.isTraining = false;
     this.finishedAt = java.time.Instant.now().getEpochSecond();
+  }
+
+  public void addWeapon(Weapon weapon) {
+    this.weapons.add(weapon);
   }
 }
