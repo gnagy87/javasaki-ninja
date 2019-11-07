@@ -1,13 +1,11 @@
 package com.javasaki.ninja.armor;
 
+import com.javasaki.ninja.ninja.NinjaHero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -18,5 +16,14 @@ public abstract class Armor {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-  private int price;
+  protected String type;
+  protected int price;
+  protected int armor;
+
+  @ManyToOne
+  private NinjaHero ninjaHero;
+
+  public Armor(String type) {
+    this.type = type;
+  }
 }
