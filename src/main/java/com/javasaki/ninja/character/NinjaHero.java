@@ -1,4 +1,4 @@
 package com.javasaki.ninja.character;
 
-public class Hero {
+public class NinjaHero {
 }
