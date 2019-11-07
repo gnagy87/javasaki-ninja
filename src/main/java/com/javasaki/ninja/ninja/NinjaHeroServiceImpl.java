@@ -21,7 +21,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   public int dailyBonus(long id) throws TimeException {
     NinjaHero ninja = ninjaHeroRepository.findById(id).get();
     if (!timeService.expiredOtNot(ninja.getDailyBonusTime())) {
-      throw new TimeException("You have to wait until the next bonus round!");
+      throw new TimeException("You have to wait " + ((ninja.getDailyBonusTime() - java.time.Instant.now().getEpochSecond()) / 60) + " minutes to the next bonus");
     }
     int prize = bonusMoney();
     ninja.setMoney(ninja.getMoney() + prize);
