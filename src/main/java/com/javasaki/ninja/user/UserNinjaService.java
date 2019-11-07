@@ -20,8 +20,9 @@ public interface UserNinjaService {
   UserNinja findUserNinjaByUsername(String username);
 
   VerificationToken findVerificationTokenByUser(UserNinja user);
-  
+
   long getIdFromToken(HttpServletRequest req);
+  
   UserNinja generateNewTokenForNotEnabledUser(String token) throws EmailVerificationException;
 
   void enableUserByVerificationToken(String token) throws EmailVerificationException;
