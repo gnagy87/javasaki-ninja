@@ -1,6 +1,6 @@
 package com.javasaki.ninja.email;
 
-import com.javasaki.ninja.exceptions.EmailVerificationException;
+import com.javasaki.ninja.exception.EmailVerificationException;
 import com.javasaki.ninja.user.UserNinja;
 
 public interface EmailService {
