@@ -1,5 +1,11 @@
 package com.javasaki.ninja.ninja;
 
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+
+@Entity
+@NoArgsConstructor
 public class Naikan extends NinjaHero {
 
   public Naikan(String name) {

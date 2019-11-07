@@ -6,7 +6,9 @@ import com.javasaki.ninja.ninja.NinjaType;
 import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.weapon.Weapon;
 import com.javasaki.ninja.weapon.WeaponType;
+import org.springframework.stereotype.Component;
 
+@Component
 public class NinjaFactory implements Factory {
   @Override
   public NinjaHero createNinja(String type, String name) throws NinjaException {

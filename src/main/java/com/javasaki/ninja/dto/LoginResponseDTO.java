@@ -13,14 +13,14 @@ public class LoginResponseDTO {
   private String message;
   private String token;
 
-  public LoginResponseDTO(String status, String message, String token) {
-    this.status = status;
+  public LoginResponseDTO(String message, String token) {
+    this.status = "ok";
     this.message = message;
     this.token = token;
   }
 
-  public LoginResponseDTO(String status, String message) {
-    this.status = status;
+  public LoginResponseDTO(String message) {
+    this.status = "error";
     this.message = message;
   }
 }

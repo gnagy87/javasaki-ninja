@@ -1,5 +1,8 @@
 package com.javasaki.ninja.weapon;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Nunchaku extends Weapon {
 
   public Nunchaku() {

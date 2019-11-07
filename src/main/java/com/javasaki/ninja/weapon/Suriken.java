@@ -1,5 +1,8 @@
 package com.javasaki.ninja.weapon;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Suriken extends Weapon {
 
   public Suriken() {
