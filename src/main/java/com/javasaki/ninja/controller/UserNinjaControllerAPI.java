@@ -5,7 +5,11 @@ import com.javasaki.ninja.dto.LoginResponseDTO;
 import com.javasaki.ninja.dto.RegisterDTO;
 import com.javasaki.ninja.dto.RegisterResponseDTO;
 import com.javasaki.ninja.email.OnRegistrationCompleteEvent;
+import com.javasaki.ninja.email.VerificationToken;
+import com.javasaki.ninja.errors.EmailVerificationError;
+import com.javasaki.ninja.exception.EmailVerificationException;
 import com.javasaki.ninja.security.JwtProvider;
+import com.javasaki.ninja.user.UserNinja;
 import com.javasaki.ninja.user.UserNinjaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,9 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -59,11 +61,17 @@ public class UserNinjaControllerAPI {
     if (!userNinjaService.isUserExists(loginDTO.getUsername())) {
       return ResponseEntity.status(401).body("Username is not exists!");
     }
-
     try {
       Authentication authentication = authenticationManager.authenticate(
               new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
-      //felhozni az usert a db -ből és megnézni h enabled = true?
+
+      UserNinja userNinja = userNinjaService.findUserNinjaByUsername(loginDTO.getUsername());
+      if (!userNinja.isEnable()) {
+        VerificationToken token = userNinjaService.findVerificationTokenByUser(userNinja);
+        return ResponseEntity.status(400).body(new EmailVerificationError(
+            "User is not enabled!", appUrl, token.getToken()));
+      }
+
       SecurityContextHolder.getContext().setAuthentication(authentication);
       String token = jwtProvider.generateJwtToken(loginDTO.getUsername());
       return ResponseEntity.status(200).body(new LoginResponseDTO("login successfully", token));
@@ -71,4 +79,28 @@ public class UserNinjaControllerAPI {
       return ResponseEntity.status(401).body("Wrong password");
     }
   }
+
+  @GetMapping("/confirmRegistration/{token}")
+  public ResponseEntity confirmRegistration(@PathVariable String token) {
+    try {
+      userNinjaService.enableUserByVerificationToken(token);
+      return ResponseEntity.status(200).body("Successful verification. User enabled.");
+    } catch (EmailVerificationException e) {
+      return ResponseEntity.status(500).body(new EmailVerificationError(e.getMessage(),appUrl, token));
+    }
+  }
+
+  @GetMapping("/createNewVerificationToken/{token}")
+  public ResponseEntity createNewVerificationToken(@PathVariable String token) {
+    try {
+      eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
+          userNinjaService.generateNewTokenForNotEnabledUser(token), appUrl));
+      return ResponseEntity.status(200).body("New verification token sent.");
+    } catch (EmailVerificationException e) {
+      return ResponseEntity.status(500).body(e.getMessage());
+    }
+  }
+
+
+
 }
