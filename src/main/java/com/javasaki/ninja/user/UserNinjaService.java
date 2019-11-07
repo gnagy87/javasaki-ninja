@@ -7,6 +7,8 @@ import com.javasaki.ninja.exception.EmailVerificationException;
 import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.exception.UserNinjaException;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface UserNinjaService {
 
   boolean isUserExists(String username);
@@ -19,6 +21,8 @@ public interface UserNinjaService {
 
   VerificationToken findVerificationTokenByUser(UserNinja user);
 
+  long getIdFromToken(HttpServletRequest req);
+  
   UserNinja generateNewTokenForNotEnabledUser(String token) throws EmailVerificationException;
 
   void enableUserByVerificationToken(String token) throws EmailVerificationException;

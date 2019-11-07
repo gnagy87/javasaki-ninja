@@ -9,9 +9,12 @@ import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.exception.UserNinjaException;
 import com.javasaki.ninja.factory.Factory;
 import com.javasaki.ninja.ninja.NinjaHero;
+import com.javasaki.ninja.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 
 import java.util.UUID;
 
@@ -22,14 +25,18 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   private Factory factory;
   private EmailService emailService;
   private PasswordEncoder encoder;
+  private JwtProvider jwtProvider;
 
   @Autowired
-  public UserNinjaServiceImpl(UserNinjaRepository userNinjaRepository, Factory factory, EmailService emailService,
-      PasswordEncoder encoder) {
+  public UserNinjaServiceImpl(UserNinjaRepository userNinjaRepository,
+                              Factory factory, PasswordEncoder encoder,
+                              JwtProvider jwtProvider, EmailService emailService) {
     this.userNinjaRepository = userNinjaRepository;
     this.factory = factory;
-    this.emailService = emailService;
     this.encoder = encoder;
+    this.jwtProvider = jwtProvider;
+    this.emailService = emailService;
+
   }
 
   @Override
@@ -86,5 +93,10 @@ public class UserNinjaServiceImpl implements UserNinjaService {
 
   private void simplySaveUserNinjaAfterEnabledProcess(UserNinja user) {
     userNinjaRepository.save(user);
+  }
+
+  @Override
+  public long getIdFromToken(HttpServletRequest req) {
+    return jwtProvider.getIdFromToken(req.getHeader("Authorization").substring(7));
   }
 }
