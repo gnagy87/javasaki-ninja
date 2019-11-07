@@ -35,6 +35,7 @@ public class UserNinjaControllerAPI {
   @PostMapping("/register")
   public ResponseEntity registration(@Valid @RequestBody RegisterDTO registerDTO) {
     try {
+      userNinjaService.registration(registerDTO);
       return ResponseEntity.status(200).body(new RegisterResponseDTO("ok", "registered successfully"));
     } catch (Exception err) {
       return ResponseEntity.status(400).body(new RegisterResponseDTO("error", err.getMessage()));
