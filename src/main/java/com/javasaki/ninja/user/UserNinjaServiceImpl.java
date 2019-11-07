@@ -8,6 +8,7 @@ import com.javasaki.ninja.exception.UserNinjaException;
 import com.javasaki.ninja.factory.Factory;
 import com.javasaki.ninja.ninja.NinjaHero;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,9 +19,11 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   private UserNinjaRepository userNinjaRepository;
   private Factory factory;
   private EmailService emailService;
+  private PasswordEncoder encoder;
 
   @Autowired
-  public UserNinjaServiceImpl(UserNinjaRepository userNinjaRepository, Factory factory, EmailService emailService) {
+  public UserNinjaServiceImpl(UserNinjaRepository userNinjaRepository, Factory factory, EmailService emailService,
+      PasswordEncoder encoder) {
     this.userNinjaRepository = userNinjaRepository;
     this.factory = factory;
     this.emailService = emailService;
@@ -39,7 +42,7 @@ public class UserNinjaServiceImpl implements UserNinjaService {
       emailService.createVerificationToken(userNinja, UUID.randomUUID().toString());
 
       return new RegisterResponseDTO("ok", "registered successfully");
-    } else{
+    } else {
       throw new UserNinjaException("Username is already taken");
     }
   }
@@ -47,7 +50,7 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   @Override
   public UserNinja saveUserNinja(RegisterDTO registerDTO) throws NinjaException {
     NinjaHero hero = factory.createNinja(registerDTO.getHeroType(), registerDTO.getHeroName());
-    UserNinja user = new UserNinja(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail());
+    UserNinja user = new UserNinja(registerDTO.getUsername(), encoder.encode(registerDTO.getPassword()), registerDTO.getEmail());
     user.setNinjaHero(hero);
     hero.setUserNinja(user);
     return userNinjaRepository.save(user);

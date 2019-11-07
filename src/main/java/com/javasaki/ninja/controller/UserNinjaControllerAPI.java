@@ -68,7 +68,7 @@ public class UserNinjaControllerAPI {
       String token = jwtProvider.generateJwtToken(loginDTO.getUsername());
       return ResponseEntity.status(200).body(new LoginResponseDTO("login successfully", token));
     } catch (Exception err) {
-      return ResponseEntity.status(401).body(new LoginResponseDTO(err.getMessage()));
+      return ResponseEntity.status(401).body("Wrong password");
     }
   }
 }
