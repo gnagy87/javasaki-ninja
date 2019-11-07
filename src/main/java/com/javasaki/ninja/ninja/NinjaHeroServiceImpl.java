@@ -22,21 +22,21 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   public PrizeDTO performRobberyByUserId(Long userId) throws TimeException {
     NinjaHero ninjaHero = ninjaHeroRepository.findNinjaHeroByUserNinjaId(userId);
     if (!timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
-      throw new TimeException("Time need to be elapsed until perform next activity: "
+      throw new TimeException("Time need to be elapsed until perform next activity (in sec): "
           + (ninjaHero.getFinishedAt() - java.time.Instant.now().getEpochSecond()));
     }
     if (rndGenerator() < 7) {
       int oldMoney = ninjaHero.getMoney();
       int money = oldMoney + (rndGenerator() * 100);
       ninjaHero.setMoney(money);
-      ninjaHero.setFinishedAt(java.time.Instant.now().getEpochSecond() + 60);
+      ninjaHero.setFinishedAt(java.time.Instant.now().getEpochSecond() + 120);
       ninjaHeroRepository.save(ninjaHero);
       return new PrizeDTO("Successful robbery performed.", ninjaHero.getMoney() - oldMoney);
     } else {
       ninjaHero.setInJail(true);
       ninjaHero.setFinishedAt(java.time.Instant.now().getEpochSecond() + 7200);
       ninjaHeroRepository.save(ninjaHero);
-      return new PrizeDTO("You have been arrested. Time need to be elapsed until perform next activity: "
+      return new PrizeDTO("You have been arrested. Time need to be elapsed until perform next activity (in sec): "
           + (ninjaHero.getFinishedAt() - java.time.Instant.now().getEpochSecond()), 0);
     }
   }
