@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class UserNinjaControllerAPI {
 
   @PostMapping("/register")
-  public ResponseEntity registration(@RequestBody RegisterDTO registerDTO) {
+  public ResponseEntity registration(@Valid @RequestBody RegisterDTO registerDTO) {
     try {
       return ResponseEntity.status(200).body(new RegisterResponseDTO("ok", "registered successfully"));
     } catch (Exception err) {
