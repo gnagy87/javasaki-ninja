@@ -18,5 +18,4 @@ public interface NinjaHeroService {
   NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException, MoneyException;
 
   PrizeDTO performWorkByUserId(Long userId) throws TimeException;
-
 }

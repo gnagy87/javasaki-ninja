@@ -111,7 +111,6 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     return new PrizeDTO("Work has been done. Time to have a rest.", ninjaHero.getMoney() - oldMoney);
   }
 
-
   private NinjaDTO improveOffence(NinjaHero ninjaHero) {
     ninjaHero.setHp(ninjaHero.hp + 1);
     ninjaHero.setOffence(ninjaHero.offence + 3);
