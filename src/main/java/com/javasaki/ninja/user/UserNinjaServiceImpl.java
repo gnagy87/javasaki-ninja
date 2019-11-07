@@ -5,9 +5,12 @@ import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.exception.UserNinjaException;
 import com.javasaki.ninja.factory.Factory;
 import com.javasaki.ninja.ninja.NinjaHero;
+import com.javasaki.ninja.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class UserNinjaServiceImpl implements UserNinjaService {
@@ -15,12 +18,16 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   private UserNinjaRepository userNinjaRepository;
   private Factory factory;
   private PasswordEncoder encoder;
+  private JwtProvider jwtProvider;
 
   @Autowired
-  public UserNinjaServiceImpl(UserNinjaRepository userNinjaRepository, Factory factory, PasswordEncoder encoder) {
+  public UserNinjaServiceImpl(UserNinjaRepository userNinjaRepository,
+                              Factory factory, PasswordEncoder encoder,
+                              JwtProvider jwtProvider) {
     this.userNinjaRepository = userNinjaRepository;
     this.factory = factory;
     this.encoder = encoder;
+    this.jwtProvider = jwtProvider;
   }
 
   @Override
@@ -43,5 +50,10 @@ public class UserNinjaServiceImpl implements UserNinjaService {
     user.setNinjaHero(hero);
     hero.setUserNinja(user);
     userNinjaRepository.save(user);
+  }
+
+  @Override
+  public long getIdFromToken(HttpServletRequest req) {
+    return jwtProvider.getIdFromToken(req.getHeader("Authorization").substring(7));
   }
 }
