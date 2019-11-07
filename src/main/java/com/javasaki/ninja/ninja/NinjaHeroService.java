@@ -18,4 +18,6 @@ public interface NinjaHeroService {
   void setArmomr(NinjaHero ninjaHero, String type) throws ArmorException;
 
   void setWeapon(NinjaHero ninjaHero, String type) throws WeaponException;
+
+  PrizeDTO performWorkByUserId(Long userId) throws TimeException;
 }

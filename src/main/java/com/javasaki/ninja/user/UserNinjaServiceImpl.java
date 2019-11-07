@@ -1,5 +1,6 @@
 package com.javasaki.ninja.user;
 
+import com.javasaki.ninja.dto.ChallengerDTO;
 import com.javasaki.ninja.dto.RegisterDTO;
 import com.javasaki.ninja.dto.RegisterResponseDTO;
 import com.javasaki.ninja.email.EmailService;
@@ -107,5 +108,20 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   @Override
   public long getIdFromToken(HttpServletRequest req) {
     return jwtProvider.getIdFromToken(req.getHeader("Authorization").substring(7));
+  }
+
+  @Override
+  public String getUsernameFromToken(HttpServletRequest request) {
+    return jwtProvider.getUserNameFromJwtToken(request.getHeader("Authorization").substring(7));
+  }
+
+  @Override
+  public String saveChallenger(ChallengerDTO challenger, UserNinja user) throws UserNinjaException {
+    if (!userNinjaRepository.findUserNinjaByUsername(challenger.getChallengedName()).isPresent()) {
+      throw  new UserNinjaException("User with name: " + challenger.getChallengedName() + " doesn't exists!");
+    }
+    user.getChallengers().add(challenger);
+    userNinjaRepository.save(user);
+    return challenger.getChallengedName();
   }
 }
