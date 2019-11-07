@@ -3,15 +3,16 @@ package com.javasaki.ninja.controller;
 import com.javasaki.ninja.dto.PrizeDTO;
 import com.javasaki.ninja.errors.RobberyError;
 import com.javasaki.ninja.exception.TimeException;
+import com.javasaki.ninja.dto.NinjaDTO;
 import com.javasaki.ninja.ninja.NinjaHeroService;
 import com.javasaki.ninja.security.JwtProvider;
 import com.javasaki.ninja.user.UserNinjaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -41,6 +42,17 @@ public class GamePlayControllerAPI {
     }
   }
 
+  @GetMapping("/ninja")
+  public ResponseEntity getNinjaHero(HttpServletRequest request) {
+    try {
+      long id = userNinjaService.getIdFromToken(request);
+      NinjaDTO dto = new NinjaDTO(ninjaHeroService.findNinjaById(id));
+      return ResponseEntity.status(200).body(dto);
+    } catch (Exception err) {
+      return ResponseEntity.status(400).body(err.getMessage());
+    }
+  }
+
   @PutMapping("/bonus")
   public ResponseEntity dailyBonus(HttpServletRequest request) {
     try {
@@ -51,3 +63,4 @@ public class GamePlayControllerAPI {
     }
   }
 }
+

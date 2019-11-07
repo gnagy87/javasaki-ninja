@@ -45,6 +45,10 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     return (int) (Math.random() * 10) + 1;
   }
 
+  public NinjaHero findNinjaById(long id) {
+    return ninjaHeroRepository.findById(id).get();
+  }
+
   @Override
   public int dailyBonus(long id) throws TimeException {
     NinjaHero ninja = ninjaHeroRepository.findById(id).get();

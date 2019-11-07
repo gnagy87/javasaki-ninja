@@ -7,5 +7,8 @@ public interface NinjaHeroService {
 
   PrizeDTO performRobberyByUserId(Long authorization) throws TimeException;
 
+  NinjaHero findNinjaById(long id);
+
   int dailyBonus(long id) throws TimeException;
+
 }
