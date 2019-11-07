@@ -1,14 +1,20 @@
 package com.javasaki.ninja.dto;
 
 import com.javasaki.ninja.weapon.Weapon;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class WeaponDTO {
-  long id;
-  String weaponType;
-  int damage;
-  int offense;
-  int defense;
-  int price;
+  private long id;
+  private String weaponType;
+  private int damage;
+  private int offense;
+  private int defense;
+  private int price;
 
   public WeaponDTO(Weapon weapon) {
     this.id = weapon.getId();

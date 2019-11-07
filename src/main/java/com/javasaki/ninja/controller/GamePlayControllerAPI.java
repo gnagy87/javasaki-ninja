@@ -1,5 +1,6 @@
 package com.javasaki.ninja.controller;
 
+import com.javasaki.ninja.dto.NinjaDTO;
 import com.javasaki.ninja.ninja.NinjaHeroService;
 import com.javasaki.ninja.user.UserNinjaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import com.javasaki.ninja.dto.PrizeDTO;
 import com.javasaki.ninja.exception.TimeException;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -27,8 +27,9 @@ public class GamePlayControllerAPI {
   @GetMapping("/ninja")
   public ResponseEntity getNinjaHero(HttpServletRequest request) {
     try {
-      //long id = userNinj
-      //return ResponseEntity.status(200).body(new NinjaDTO(ninjaHeroService))
+      long id = userNinjaService.getIdFromToken(request);
+      NinjaDTO dto = new NinjaDTO(ninjaHeroService.findNinjaById(id));
+      return ResponseEntity.status(200).body(dto);
     } catch (Exception err) {
       return ResponseEntity.status(400).body(err.getMessage());
     }
