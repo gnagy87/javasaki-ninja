@@ -18,9 +18,4 @@ public class LoginResponseDTO {
     this.message = message;
     this.token = token;
   }
-
-  public LoginResponseDTO(String message) {
-    this.status = "error";
-    this.message = message;
-  }
 }

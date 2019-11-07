@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 
 @Entity
+@Table(name = "user")
 @Setter
 @Getter
 public class UserNinja {

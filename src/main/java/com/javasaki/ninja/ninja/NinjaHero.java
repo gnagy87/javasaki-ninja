@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "ninja")
 @Getter
 @Setter
 public abstract class NinjaHero {
