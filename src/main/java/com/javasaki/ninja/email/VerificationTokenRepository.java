@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VerificationTokenRepository extends CrudRepository<VerificationToken, Long> {
 
-  VerificationToken findNinjaUserByToken(String token);
+  VerificationToken findUserNinjaByToken(String token);
 
   VerificationToken findTokenByUserId(Long id);
 

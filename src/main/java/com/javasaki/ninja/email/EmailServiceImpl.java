@@ -31,16 +31,29 @@ public class EmailServiceImpl implements EmailService {
 
   @Override
   public UserNinja enableRegisteredUser(VerificationToken verificationToken) throws EmailVerificationException {
-    return null;
+    if (timeService.minutesBetweenVerificationTokenTimestamps(verificationToken.getExpiryDate()) <= 0) {
+      throw new EmailVerificationException("Token is expired!");
+    }
+
+    UserNinja user = verificationToken.getUser();
+    user.setEnable(true);
+    tokenRepository.delete(verificationToken);
+    return user;
   }
 
   @Override
   public VerificationToken findVerificationTokenByToken(String token) {
-    return null;
+    return tokenRepository.findUserNinjaByToken(token);
   }
 
   @Override
-  public void substituteUsersExistingToken(VerificationToken verificationToken, String toString) throws EmailVerificationException {
-
+  public void substituteUsersExistingToken(VerificationToken verificationToken, String newToken)
+      throws EmailVerificationException {
+    try {
+      tokenRepository.delete(verificationToken);
+      createVerificationToken(verificationToken.getUser(), newToken);
+    } catch (Exception e) {
+      throw new EmailVerificationException("Could not substitute existing token." + e.getMessage());
+    }
   }
 }
