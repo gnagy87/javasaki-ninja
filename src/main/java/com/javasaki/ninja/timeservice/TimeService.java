@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public interface TimeService {
 
-  long expiredOtNot(Long finishedAt);
+  boolean expiredOtNot(Long finishedAt);
 
   Long minutesBetweenVerificationTokenTimestamps(Timestamp expiryDate);
 }
