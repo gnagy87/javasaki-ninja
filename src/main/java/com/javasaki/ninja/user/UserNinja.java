@@ -1,6 +1,6 @@
 package com.javasaki.ninja.user;
 
-import com.javasaki.ninja.character.NinjaHero;
+import com.javasaki.ninja.ninja.NinjaHero;
 import lombok.Getter;
 import lombok.Setter;
 

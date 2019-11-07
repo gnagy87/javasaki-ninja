@@ -1,5 +1,10 @@
-package com.javasaki.ninja.character;
+package com.javasaki.ninja.ninja;
 
+import lombok.NoArgsConstructor;
+import javax.persistence.Entity;
+
+@Entity
+@NoArgsConstructor
 public class Jukan extends NinjaHero {
 
   public Jukan(String name) {

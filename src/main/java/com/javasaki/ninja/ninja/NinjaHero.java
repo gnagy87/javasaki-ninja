@@ -1,10 +1,12 @@
-package com.javasaki.ninja.character;
+package com.javasaki.ninja.ninja;
 
 import com.javasaki.ninja.user.UserNinja;
+import com.javasaki.ninja.weapon.Weapon;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "ninja")
@@ -28,6 +30,9 @@ public abstract class NinjaHero {
 
   @OneToOne
   private UserNinja userNinja;
+
+  @OneToMany
+  private List<Weapon> weapons;
 
   public NinjaHero() {
   }

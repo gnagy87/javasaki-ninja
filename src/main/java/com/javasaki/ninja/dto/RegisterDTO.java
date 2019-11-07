@@ -14,14 +14,17 @@ public class RegisterDTO {
   private String username;
   @NotNull(message = "Please provide a name of your hero!")
   private String heroName;
+  @NotNull(message = "Please provide a hero type")
+  private String heroType;
   @NotNull(message = "Please provide an email!")
   private String email;
   @NotNull(message = "Please provide a password!")
   private String password;
 
-  public RegisterDTO(String username, String heroName, String email, String password) {
+  public RegisterDTO(String username, String heroName, String heroType, String email, String password) {
     this.username = username;
     this.heroName = heroName;
+    this.heroType = heroType;
     this.email = email;
     this.password = password;
   }

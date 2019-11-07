@@ -35,6 +35,7 @@ public class UserNinjaControllerAPI {
   @PostMapping("/register")
   public ResponseEntity registration(@Valid @RequestBody RegisterDTO registerDTO) {
     try {
+      userNinjaService.registration(registerDTO);
       return ResponseEntity.status(200).body(new RegisterResponseDTO("ok", "registered successfully"));
     } catch (Exception err) {
       return ResponseEntity.status(400).body(new RegisterResponseDTO("error", err.getMessage()));
@@ -53,7 +54,7 @@ public class UserNinjaControllerAPI {
       String token = jwtProvider.generateJwtToken(loginDTO.getUsername());
       return ResponseEntity.status(200).body(new LoginResponseDTO("login successfully", token));
     } catch (Exception err) {
-      return ResponseEntity.status(401).body(new LoginResponseDTO(err.getMessage()));
+      return ResponseEntity.status(401).body("Wrong password");
     }
   }
 }

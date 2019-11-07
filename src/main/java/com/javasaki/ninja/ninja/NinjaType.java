@@ -1,4 +1,4 @@
-package com.javasaki.ninja.character;
+package com.javasaki.ninja.ninja;
 
 public enum NinjaType {
   NAIKAN {
