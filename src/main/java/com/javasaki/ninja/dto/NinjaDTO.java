@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class NinjaDTO {
 
   private long id;
+  private String type;
   private String name;
   private int hp;
   private int offence;
@@ -28,6 +29,7 @@ public class NinjaDTO {
   private List<ArmorDTO> armors;
 
   public NinjaDTO(NinjaHero ninjaHero) {
+    this.type = ninjaHero.getClass().getSimpleName();
     this.id = ninjaHero.getId();
     this.name = ninjaHero.getName();
     this.hp = ninjaHero.getHp();

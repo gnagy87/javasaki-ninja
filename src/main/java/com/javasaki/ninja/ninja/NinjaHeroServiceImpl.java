@@ -1,13 +1,13 @@
 package com.javasaki.ninja.ninja;
 
-import com.javasaki.ninja.dto.NinjaDTO;
-import com.javasaki.ninja.dto.TrainDTO;
-import com.javasaki.ninja.exception.MoneyException;
-import com.javasaki.ninja.exception.NinjaException;
-import com.javasaki.ninja.dto.PrizeDTO;
-import com.javasaki.ninja.exception.TimeException;
+import com.javasaki.ninja.armor.Armor;
+import com.javasaki.ninja.armor.ArmorService;
+import com.javasaki.ninja.dto.*;
+import com.javasaki.ninja.exception.*;
 import com.javasaki.ninja.timeservice.TimeService;
 import com.javasaki.ninja.utils.PurchaseService;
+import com.javasaki.ninja.weapon.Weapon;
+import com.javasaki.ninja.weapon.WeaponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +17,18 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   private NinjaHeroRepository ninjaHeroRepository;
   private TimeService timeService;
   private PurchaseService purchaseService;
+  private ArmorService armorService;
+  private WeaponService weaponService;
 
   @Autowired
-  public NinjaHeroServiceImpl(NinjaHeroRepository ninjaHeroRepository, TimeService timeService, PurchaseService purchaseService) {
+  public NinjaHeroServiceImpl(NinjaHeroRepository ninjaHeroRepository, TimeService timeService,
+                              PurchaseService purchaseService, ArmorService armorService,
+                              WeaponService weaponService) {
     this.ninjaHeroRepository = ninjaHeroRepository;
     this.timeService = timeService;
     this.purchaseService = purchaseService;
+    this.armorService = armorService;
+    this.weaponService = weaponService;
   }
 
   @Override
@@ -93,6 +99,42 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
       return new NinjaDTO(ninjaHero);
     }
     throw new NinjaException("You can't train, because you have another activity!");
+  }
+
+  @Override
+  public void setEquipment(NinjaHero ninjaHero, EquipmentDTO equipmentDTO) throws ArmorException, WeaponException {
+
+    setArmomr(ninjaHero, equipmentDTO.getArmor());
+    setWeapon(ninjaHero, equipmentDTO.getWeapon());
+  }
+
+  @Override
+  public void setArmomr(NinjaHero ninjaHero, String type) throws ArmorException {
+    if (!(type == null || type == "")) {
+      Armor foundArmor = armorService.findArmorByType(type);
+      for (Armor armor : ninjaHero.getArmors()) {
+        if (armor == foundArmor) {
+          armor.setUsed(true);
+        } else {
+          armor.setUsed(false);
+        }
+      }
+      ninjaHeroRepository.save(ninjaHero);
+    }
+  }
+
+  @Override
+  public void setWeapon(NinjaHero ninjaHero, String type) throws WeaponException {
+    if (!(type == null || type == "")) {
+      Weapon foundWeapon = weaponService.findWeaponByType(type);
+      for (Weapon weapon : ninjaHero.getWeapons()) {
+        if (weapon == foundWeapon) {
+          weapon.setUsed(true);
+        } else {
+          weapon.setUsed(false);
+        }
+      }
+    }
   }
 
   @Override

@@ -64,9 +64,11 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   @Override
   public UserNinja saveUserNinja(RegisterDTO registerDTO) throws NinjaException, WeaponException {
     NinjaHero hero = factory.createNinja(registerDTO.getHeroType(), registerDTO.getHeroName());
+    hero.setMoney(1000);
     List<Weapon> weapons = new ArrayList<>();
-    Weapon weapon = factory.createWeapon("suriken");
+    Weapon weapon = factory.createWeapon("bamboo");
     weapon.setNinjaHero(hero);
+    weapon.setUsed(true);
     weapons.add(weapon);
     hero.setWeapons(weapons);
     UserNinja user = new UserNinja(registerDTO.getUsername(), encoder.encode(registerDTO.getPassword()), registerDTO.getEmail());

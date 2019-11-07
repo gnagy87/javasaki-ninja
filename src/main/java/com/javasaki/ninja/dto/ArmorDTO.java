@@ -14,11 +14,13 @@ public class ArmorDTO {
   private String type;
   private int price;
   private int armor;
+  private boolean isUsed;
 
   public ArmorDTO(Armor armor) {
     this.in = armor.getId();
     this.type = armor.getType();
     this.price = armor.getPrice();
     this.armor = armor.getArmor();
+    this.isUsed = armor.isUsed();
   }
 }
