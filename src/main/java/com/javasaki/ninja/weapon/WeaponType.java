@@ -18,6 +18,12 @@ public enum WeaponType {
     public Weapon createWeapon() {
       return new Suriken();
     }
+  },
+  BAMBOO {
+    @Override
+    public Weapon createWeapon() {
+      return new BambooStick();
+    }
   };
   public abstract Weapon createWeapon();
 }

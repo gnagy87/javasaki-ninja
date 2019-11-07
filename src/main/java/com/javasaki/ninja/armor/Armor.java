@@ -19,11 +19,13 @@ public abstract class Armor {
   protected String type;
   protected int price;
   protected int armor;
+  protected boolean isUsed;
 
   @ManyToOne
   private NinjaHero ninjaHero;
 
   public Armor(String type) {
     this.type = type;
+    this.isUsed = false;
   }
 }

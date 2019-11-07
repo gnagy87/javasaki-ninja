@@ -15,17 +15,19 @@ public abstract class Weapon {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  long id;
-  String weaponType;
-  int damage;
-  int offense;
-  int defense;
-  int price;
+  private long id;
+  protected String weaponType;
+  protected int damage;
+  protected int offense;
+  protected int defense;
+  protected int price;
+  protected boolean isUsed;
 
   @ManyToOne
   private NinjaHero ninjaHero;
 
   public Weapon(String weaponType) {
     this.weaponType = weaponType;
+    this.isUsed = false;
   }
 }
