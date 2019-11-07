@@ -1,5 +1,11 @@
 package com.javasaki.ninja.ninja;
 
+import com.javasaki.ninja.dto.PrizeDTO;
+import com.javasaki.ninja.exception.TimeException;
+
 public interface NinjaHeroService {
-  boolean performRobberyByUserId(Long authorization);
+
+  PrizeDTO performRobberyByUserId(Long authorization) throws TimeException;
+
+  int dailyBonus(long id) throws TimeException;
 }
