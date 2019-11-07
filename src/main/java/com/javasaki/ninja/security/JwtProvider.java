@@ -1,5 +1,6 @@
 package com.javasaki.ninja.security;
 
+import com.javasaki.ninja.user.UserNinja;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,13 +24,14 @@ public class JwtProvider {
 
   private int jwtExpiration = 864000000;
 
-  public String generateJwtToken(String username) {
+  public String generateJwtToken(UserNinja user) {
 
     return Jwts.builder()
-            .setSubject(username)
+            .setSubject(user.getUsername())
             .setIssuedAt(new Date())
             .setExpiration(new Date((new Date()).getTime() + jwtExpiration))
             .signWith(SignatureAlgorithm.HS512, jwtSecret)
+            .setId(Long.toString(user.getId()))
             .compact();
   }
 
@@ -40,11 +42,11 @@ public class JwtProvider {
             .getBody().getSubject();
   }
 
-  public String getIdFromToken(String token) {
-    return Jwts.parser()
+  public Long getIdFromToken(String token) {
+    return Long.valueOf(Jwts.parser()
             .setSigningKey(jwtSecret)
             .parseClaimsJws(token)
-            .getBody().getId();
+            .getBody().getId());
   }
 
   public boolean validateJwtToken(String authToken) {
