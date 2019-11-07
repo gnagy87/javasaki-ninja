@@ -2,10 +2,12 @@ package com.javasaki.ninja.ninja;
 
 import com.javasaki.ninja.dto.NinjaDTO;
 import com.javasaki.ninja.dto.TrainDTO;
+import com.javasaki.ninja.exception.MoneyException;
 import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.dto.PrizeDTO;
 import com.javasaki.ninja.exception.TimeException;
 import com.javasaki.ninja.timeservice.TimeService;
+import com.javasaki.ninja.utils.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,13 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
 
   private NinjaHeroRepository ninjaHeroRepository;
   private TimeService timeService;
+  private PurchaseService purchaseService;
 
   @Autowired
-  public NinjaHeroServiceImpl(NinjaHeroRepository ninjaHeroRepository, TimeService timeService) {
+  public NinjaHeroServiceImpl(NinjaHeroRepository ninjaHeroRepository, TimeService timeService, PurchaseService purchaseService) {
     this.ninjaHeroRepository = ninjaHeroRepository;
     this.timeService = timeService;
+    this.purchaseService = purchaseService;
   }
 
   @Override
@@ -28,7 +32,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
       throw new TimeException("Time need to be elapsed until perform next activity (in sec): "
           + (ninjaHero.getFinishedAt() - java.time.Instant.now().getEpochSecond()));
     }
-    if (rndGenerator() < 7) {
+    if (rndGenerator() < 8) {
       int oldMoney = ninjaHero.getMoney();
       int money = oldMoney + (rndGenerator() * 100);
       ninjaHero.setMoney(money);
@@ -57,7 +61,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   public int dailyBonus(long id) throws TimeException {
     NinjaHero ninja = ninjaHeroRepository.findById(id).get();
     if (!timeService.expiredOrNot(ninja.getDailyBonusTime())) {
-      throw new TimeException("You have to wait" + ((ninja.getDailyBonusTime() - java.time.Instant.now().getEpochSecond()) / 60) + " minute(s) until the next bonus round!");
+      throw new TimeException("You have to wait " + ((ninja.getDailyBonusTime() - java.time.Instant.now().getEpochSecond()) / 60) + " minute(s) until the next bonus round!");
     }
     int prize = bonusMoney();
     ninja.setMoney(ninja.getMoney() + prize);
@@ -67,17 +71,19 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   }
 
   @Override
-  public NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException {
-    NinjaHero ninjaHero = ninjaHeroRepository.findNinjaHeroByUserNinjaId(id);
+  public NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException, MoneyException {
+    NinjaHero ninjaHero = ninjaHeroRepository.findById(id).get();
 
+    purchaseService.enoughMoneyForTrain(ninjaHero, 100);
+    String trainType = trainDTO.getTrain();
     if (timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
-      if (trainDTO.getTrain().equals("offence")) {
+      if (trainType.equals("offence")) {
         improveOffence(ninjaHero);
       }
-      if (trainDTO.getTrain().equals("defence")) {
+      if (trainType.equals("defence")) {
         improveDefence(ninjaHero);
       }
-      if (trainDTO.getTrain().equals("speed")) {
+      if (trainType.equals("speed")) {
         improveSpeed(ninjaHero);
       }
       ninjaHero.setFinishedAt(ninjaHero.getFinishedAt() + 60);
@@ -89,21 +95,38 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     throw new NinjaException("You can't train, because you have another activity!");
   }
 
+  @Override
+  public PrizeDTO performWorkByUserId(Long userId) throws TimeException {
+    NinjaHero ninjaHero = ninjaHeroRepository.findNinjaHeroByUserNinjaId(userId);
+    if (!timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
+      throw new TimeException("Time need to be elapsed until perform next activity (in sec): "
+          + (ninjaHero.getFinishedAt() - java.time.Instant.now().getEpochSecond()));
+    }
+
+    int oldMoney = ninjaHero.getMoney();
+    int money = oldMoney + (rndGenerator() * 60);
+    ninjaHero.setMoney(money);
+    ninjaHero.setFinishedAt(java.time.Instant.now().getEpochSecond() + 900);
+    ninjaHeroRepository.save(ninjaHero);
+    return new PrizeDTO("Work has been done. Time to have a rest.", ninjaHero.getMoney() - oldMoney);
+  }
+
+
   private NinjaDTO improveOffence(NinjaHero ninjaHero) {
-    ninjaHero.setHp(ninjaHero.getHp() + 1);
-    ninjaHero.setOffence(ninjaHero.getOffence() + 3);
+    ninjaHero.setHp(ninjaHero.hp + 1);
+    ninjaHero.setOffence(ninjaHero.offence + 3);
     return new NinjaDTO(ninjaHero);
   }
 
   private NinjaDTO improveDefence(NinjaHero ninjaHero) {
-    ninjaHero.setHp(ninjaHero.getHp() + 1);
-    ninjaHero.setDefence(ninjaHero.getDefence() + 3);
+    ninjaHero.setHp(ninjaHero.hp + 1);
+    ninjaHero.setDefence(ninjaHero.defence + 3);
     return new NinjaDTO(ninjaHero);
   }
 
   private NinjaDTO improveSpeed(NinjaHero ninjaHero) {
-    ninjaHero.setHp(ninjaHero.getHp() + 1);
-    ninjaHero.setSpeed(ninjaHero.getSpeed() + 3);
+    ninjaHero.setHp(ninjaHero.hp + 1);
+    ninjaHero.setSpeed(ninjaHero.speed + 3);
     return new NinjaDTO(ninjaHero);
   }
 

@@ -1,5 +1,8 @@
 package com.javasaki.ninja.factory;
 
+import com.javasaki.ninja.armor.Armor;
+import com.javasaki.ninja.armor.ArmorType;
+import com.javasaki.ninja.exception.ArmorException;
 import com.javasaki.ninja.exception.WeaponException;
 import com.javasaki.ninja.ninja.NinjaHero;
 import com.javasaki.ninja.ninja.NinjaType;
@@ -25,6 +28,15 @@ public class NinjaFactory implements Factory {
       return WeaponType.valueOf(type.toUpperCase()).createWeapon();
     } catch (IllegalArgumentException err) {
       throw new WeaponException((err.getMessage()));
+    }
+  }
+
+  @Override
+  public Armor createArmor(String type) throws ArmorException {
+    try {
+      return ArmorType.valueOf(type.toUpperCase()).createArmor();
+    } catch (IllegalArgumentException err) {
+      throw new ArmorException(err.getMessage());
     }
   }
 }

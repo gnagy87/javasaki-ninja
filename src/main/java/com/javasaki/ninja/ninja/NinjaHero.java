@@ -1,11 +1,13 @@
 package com.javasaki.ninja.ninja;
 
+import com.javasaki.ninja.armor.Armor;
 import com.javasaki.ninja.user.UserNinja;
 import com.javasaki.ninja.weapon.Weapon;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +21,6 @@ public abstract class NinjaHero {
   private long id;
   protected String name;
   protected int hp;
-  private int armor;
   protected int offence;
   protected int defence;
   protected int speed;
@@ -35,6 +36,9 @@ public abstract class NinjaHero {
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "ninjaHero")
   private List<Weapon> weapons;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "ninjaHero")
+  private List<Armor> armors;
+
   public NinjaHero() {
   }
 
@@ -44,6 +48,8 @@ public abstract class NinjaHero {
     this.isTraining = false;
     this.finishedAt = java.time.Instant.now().getEpochSecond();
     this.dailyBonusTime = java.time.Instant.now().getEpochSecond();
+    this.weapons = new ArrayList<>();
+    this.armors = new ArrayList<>();
   }
 
   public void addWeapon(Weapon weapon) {

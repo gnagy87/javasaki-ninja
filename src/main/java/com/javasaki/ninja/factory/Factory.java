@@ -1,5 +1,7 @@
 package com.javasaki.ninja.factory;
 
+import com.javasaki.ninja.armor.Armor;
+import com.javasaki.ninja.exception.ArmorException;
 import com.javasaki.ninja.exception.WeaponException;
 import com.javasaki.ninja.ninja.NinjaHero;
 import com.javasaki.ninja.exception.NinjaException;
@@ -10,4 +12,6 @@ public interface Factory {
   NinjaHero createNinja(String type, String name) throws NinjaException;
 
   Weapon createWeapon(String type) throws WeaponException;
+
+  Armor createArmor(String type) throws ArmorException;
 }
