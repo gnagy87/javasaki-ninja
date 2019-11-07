@@ -45,10 +45,6 @@
       <property name="max" value="120"/>
     </module>
     <module name="UnusedImports"/>
-<<<<<<< HEAD
-<!--    <module name="AvoidStarImport"/>-->
-=======
->>>>>>> afc783acc56fee37bfca0aa9de98c7dbab6ff9e0
     <module name="OneTopLevelClass"/>
     <module name="NoLineWrap"/>
     <module name="EmptyBlock">
