@@ -10,4 +10,6 @@ public interface PurchaseService {
   void checkMoneyForWeapon(NinjaHero ninjaHero, Weapon weapon) throws MoneyException;
 
   void checkMoneyForArmor(NinjaHero ninjaHero, Armor armor) throws MoneyException;
+
+  void enoughMoneyForTrain(NinjaHero ninjaHero, int price) throws MoneyException;
 }

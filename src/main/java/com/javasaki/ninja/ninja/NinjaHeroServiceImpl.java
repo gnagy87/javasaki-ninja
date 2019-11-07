@@ -2,10 +2,12 @@ package com.javasaki.ninja.ninja;
 
 import com.javasaki.ninja.dto.NinjaDTO;
 import com.javasaki.ninja.dto.TrainDTO;
+import com.javasaki.ninja.exception.MoneyException;
 import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.dto.PrizeDTO;
 import com.javasaki.ninja.exception.TimeException;
 import com.javasaki.ninja.timeservice.TimeService;
+import com.javasaki.ninja.utils.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,13 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
 
   private NinjaHeroRepository ninjaHeroRepository;
   private TimeService timeService;
+  private PurchaseService purchaseService;
 
   @Autowired
-  public NinjaHeroServiceImpl(NinjaHeroRepository ninjaHeroRepository, TimeService timeService) {
+  public NinjaHeroServiceImpl(NinjaHeroRepository ninjaHeroRepository, TimeService timeService, PurchaseService purchaseService) {
     this.ninjaHeroRepository = ninjaHeroRepository;
     this.timeService = timeService;
+    this.purchaseService = purchaseService;
   }
 
   @Override
@@ -67,17 +71,19 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   }
 
   @Override
-  public NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException {
+  public NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException, MoneyException {
     NinjaHero ninjaHero = ninjaHeroRepository.findById(id).get();
 
-    if (!timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
-      if (trainDTO.getTrain().equals("offence")) {
+    purchaseService.enoughMoneyForTrain(ninjaHero, 100);
+    String trainType = trainDTO.getTrain();
+    if (timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
+      if (trainType.equals("offence")) {
         improveOffence(ninjaHero);
       }
-      if (trainDTO.getTrain().equals("defence")) {
+      if (trainType.equals("defence")) {
         improveDefence(ninjaHero);
       }
-      if (trainDTO.getTrain().equals("speed")) {
+      if (trainType.equals("speed")) {
         improveSpeed(ninjaHero);
       }
       ninjaHero.setFinishedAt(ninjaHero.getFinishedAt() + 60);
@@ -89,24 +95,21 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     throw new NinjaException("You can't train, because you have another activity!");
   }
 
-  @Override
-  public NinjaDTO improveOffence(NinjaHero ninjaHero) {
-    ninjaHero.setHp(ninjaHero.getHp() + 1);
-    ninjaHero.setOffence(ninjaHero.getOffence() + 3);
+  private NinjaDTO improveOffence(NinjaHero ninjaHero) {
+    ninjaHero.setHp(ninjaHero.hp + 1);
+    ninjaHero.setOffence(ninjaHero.offence + 3);
     return new NinjaDTO(ninjaHero);
   }
 
-  @Override
-  public NinjaDTO improveDefence(NinjaHero ninjaHero) {
-    ninjaHero.setHp(ninjaHero.getHp() + 1);
-    ninjaHero.setDefence(ninjaHero.getDefence() + 3);
+  private NinjaDTO improveDefence(NinjaHero ninjaHero) {
+    ninjaHero.setHp(ninjaHero.hp + 1);
+    ninjaHero.setDefence(ninjaHero.defence + 3);
     return new NinjaDTO(ninjaHero);
   }
 
-  @Override
-  public NinjaDTO improveSpeed(NinjaHero ninjaHero) {
-    ninjaHero.setHp(ninjaHero.getHp() + 1);
-    ninjaHero.setSpeed(ninjaHero.getSpeed() + 3);
+  private NinjaDTO improveSpeed(NinjaHero ninjaHero) {
+    ninjaHero.setHp(ninjaHero.hp + 1);
+    ninjaHero.setSpeed(ninjaHero.speed + 3);
     return new NinjaDTO(ninjaHero);
   }
 

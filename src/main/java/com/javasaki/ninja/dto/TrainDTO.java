@@ -10,8 +10,4 @@ import lombok.Setter;
 public class TrainDTO {
 
   private String train;
-
-  public TrainDTO(String train) {
-    this.train = train;
-  }
 }

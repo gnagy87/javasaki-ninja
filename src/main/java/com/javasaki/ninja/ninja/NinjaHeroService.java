@@ -2,6 +2,7 @@ package com.javasaki.ninja.ninja;
 
 import com.javasaki.ninja.dto.NinjaDTO;
 import com.javasaki.ninja.dto.TrainDTO;
+import com.javasaki.ninja.exception.MoneyException;
 import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.dto.PrizeDTO;
 import com.javasaki.ninja.exception.TimeException;
@@ -14,12 +15,6 @@ public interface NinjaHeroService {
 
   int dailyBonus(long id) throws TimeException;
 
-  NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException;
-
-  NinjaDTO improveOffence(NinjaHero ninjaHero);
-
-  NinjaDTO improveDefence(NinjaHero ninjaHero);
-
-  NinjaDTO improveSpeed(NinjaHero ninjaHero);
+  NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException, MoneyException;
 
 }
