@@ -4,6 +4,8 @@ import com.javasaki.ninja.dto.PrizeDTO;
 import com.javasaki.ninja.errors.RobberyError;
 import com.javasaki.ninja.exception.TimeException;
 import com.javasaki.ninja.dto.NinjaDTO;
+import com.javasaki.ninja.dto.TrainDTO;
+import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.ninja.NinjaHeroService;
 import com.javasaki.ninja.security.JwtProvider;
 import com.javasaki.ninja.user.UserNinjaService;
@@ -61,6 +63,16 @@ public class GamePlayControllerAPI {
           userNinjaService.getIdFromToken(request))));
     } catch (TimeException e) {
       return ResponseEntity.status(409).body(new PrizeDTO(e.getMessage(), 0));
+    }
+  }
+
+  @PutMapping("/train")
+  public ResponseEntity trainNinja(HttpServletRequest request, TrainDTO trainDTO) {
+    try {
+      NinjaDTO ninjaDTO = ninjaHeroService.trainNinjaHero(userNinjaService.getIdFromToken(request), trainDTO);
+      return ResponseEntity.status(200).body(ninjaDTO);
+    } catch (NinjaException e) {
+      return ResponseEntity.status(400).body(e.getMessage());
     }
   }
 }
