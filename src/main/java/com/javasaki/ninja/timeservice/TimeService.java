@@ -1,4 +1,6 @@
 package com.javasaki.ninja.timeservice;
 
-public class TimeService {
+public interface TimeService {
+
+  long expiredOtNot(Long finishedAt);
 }

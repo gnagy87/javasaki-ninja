@@ -9,7 +9,7 @@ public class NinjaFactory implements Factory {
   public NinjaHero createNinja(String type, String name) throws NinjaException {
     try {
       return NinjaType.valueOf(type.toUpperCase()).createNinja(name);
-    } catch (IllegalArgumentException err){
+    } catch (IllegalArgumentException err) {
       throw new NinjaException(err.getMessage());
     }
   }

@@ -4,7 +4,11 @@ import com.javasaki.ninja.user.UserNinja;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.OneToOne;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 @Entity
 @Getter
@@ -15,7 +19,7 @@ public abstract class NinjaHero {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   protected String name;
-  protected int Hp;
+  protected int hp;
   private int armor;
   protected int offence;
   protected int defence;
