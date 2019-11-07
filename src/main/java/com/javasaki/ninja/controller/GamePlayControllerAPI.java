@@ -2,6 +2,7 @@ package com.javasaki.ninja.controller;
 
 import com.javasaki.ninja.dto.PrizeDTO;
 import com.javasaki.ninja.errors.RobberyError;
+import com.javasaki.ninja.errors.StatusMessageDTO;
 import com.javasaki.ninja.exception.MoneyException;
 import com.javasaki.ninja.exception.TimeException;
 import com.javasaki.ninja.dto.NinjaDTO;
@@ -35,11 +36,10 @@ public class GamePlayControllerAPI {
   public ResponseEntity performRobbery(HttpServletRequest request) {
 
     try {
-      PrizeDTO prizeDTO = ninjaHeroService.performRobberyByUserId(jwtProvider.getIdFromToken(
-          request.getHeader("Authorization").substring(7)));
-      return ResponseEntity.status(200).body(prizeDTO);
+      return ResponseEntity.status(200).body(ninjaHeroService.performRobberyByUserId(
+          userNinjaService.getIdFromToken(request)));
     } catch (Exception e) {
-      return ResponseEntity.status(400).body(new RobberyError(
+      return ResponseEntity.status(409).body(new RobberyError(
           "Unable to perform this activity.", e.getMessage()));
     }
   }
@@ -71,7 +71,17 @@ public class GamePlayControllerAPI {
       NinjaDTO ninjaDTO = ninjaHeroService.trainNinjaHero(userNinjaService.getIdFromToken(request), trainDTO);
       return ResponseEntity.status(200).body(ninjaDTO);
     } catch (NinjaException | MoneyException e) {
-      return ResponseEntity.status(400).body(e.getMessage());
+      return ResponseEntity.status(409).body(e.getMessage());
+    }
+  }
+
+  @PostMapping("/work")
+  public ResponseEntity performWork(HttpServletRequest request) {
+    try {
+      return ResponseEntity.status(200).body(ninjaHeroService.performWorkByUserId(
+          userNinjaService.getIdFromToken(request)));
+    } catch (Exception e) {
+      return ResponseEntity.status(409).body(new StatusMessageDTO(e.getMessage()));
     }
   }
 }

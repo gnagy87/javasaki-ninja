@@ -32,7 +32,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
       throw new TimeException("Time need to be elapsed until perform next activity (in sec): "
           + (ninjaHero.getFinishedAt() - java.time.Instant.now().getEpochSecond()));
     }
-    if (rndGenerator() < 7) {
+    if (rndGenerator() < 8) {
       int oldMoney = ninjaHero.getMoney();
       int money = oldMoney + (rndGenerator() * 100);
       ninjaHero.setMoney(money);
@@ -93,6 +93,22 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
       return new NinjaDTO(ninjaHero);
     }
     throw new NinjaException("You can't train, because you have another activity!");
+  }
+
+  @Override
+  public PrizeDTO performWorkByUserId(Long userId) throws TimeException {
+    NinjaHero ninjaHero = ninjaHeroRepository.findNinjaHeroByUserNinjaId(userId);
+    if (!timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
+      throw new TimeException("Time need to be elapsed until perform next activity (in sec): "
+          + (ninjaHero.getFinishedAt() - java.time.Instant.now().getEpochSecond()));
+    }
+
+    int oldMoney = ninjaHero.getMoney();
+    int money = oldMoney + (rndGenerator() * 60);
+    ninjaHero.setMoney(money);
+    ninjaHero.setFinishedAt(java.time.Instant.now().getEpochSecond() + 900);
+    ninjaHeroRepository.save(ninjaHero);
+    return new PrizeDTO("Work has been done. Time to have a rest.", ninjaHero.getMoney() - oldMoney);
   }
 
   private NinjaDTO improveOffence(NinjaHero ninjaHero) {
