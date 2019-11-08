@@ -13,6 +13,7 @@ import java.util.Calendar;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "email")
 public class VerificationToken {
 
   private static final int EXPIRATION = 60 * 24;
