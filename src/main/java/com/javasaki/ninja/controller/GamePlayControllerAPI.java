@@ -106,5 +106,15 @@ public class GamePlayControllerAPI {
   public ResponseEntity getMatket() {
     return ResponseEntity.status(200).body(new MarketDTO(weaponService.findAllWeapon(),armorService.findAllArmor()));
   }
+
+  @PutMapping("/market/weapon")
+  public  ResponseEntity putWeaponToMarket(HttpServletRequest request, @RequestBody WeaponMarketDTO weaponMarketDTO) {
+    try {
+      NinjaHero hero = ninjaHeroService.findNinjaById(userNinjaService.getIdFromToken(request));
+      return ResponseEntity.status(200).body(ninjaHeroService.putWeaponToMarket(hero,weaponMarketDTO));
+    } catch (Exception err) {
+      return ResponseEntity.status(400).body(err.getMessage());
+    }
+  }
 }
 

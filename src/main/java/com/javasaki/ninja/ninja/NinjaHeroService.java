@@ -20,4 +20,6 @@ public interface NinjaHeroService {
   void setWeapon(NinjaHero ninjaHero, String type) throws WeaponException;
 
   PrizeDTO performWorkByUserId(Long userId) throws TimeException;
+
+  MarketResponseDTO putWeaponToMarket(NinjaHero hero, WeaponMarketDTO weaponMarketDTO) throws WeaponException;
 }
