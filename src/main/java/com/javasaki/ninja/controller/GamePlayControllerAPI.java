@@ -106,5 +106,10 @@ public class GamePlayControllerAPI {
   public ResponseEntity getMatket() {
     return ResponseEntity.status(200).body(new MarketDTO(weaponService.findAllWeapon(),armorService.findAllArmor()));
   }
+
+  @PutMapping("/market/weapon")
+  public  ResponseEntity putWeaponToMarket() {
+    return ResponseEntity.status(200).build();
+  }
 }
 
