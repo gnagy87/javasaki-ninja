@@ -22,4 +22,6 @@ public interface NinjaHeroService {
   PrizeDTO performWorkByUserId(Long userId) throws TimeException;
 
   MarketResponseDTO putWeaponToMarket(NinjaHero hero, WeaponMarketDTO weaponMarketDTO) throws WeaponException;
+
+  MarketResponseDTO putArmorToMarket(NinjaHero ninjaHero, ArmorMarketDTO armorMarketDTO) throws ArmorException;
 }
