@@ -6,7 +6,6 @@ import com.javasaki.ninja.errors.RobberyError;
 import com.javasaki.ninja.errors.StatusMessageDTO;
 import com.javasaki.ninja.exception.MoneyException;
 import com.javasaki.ninja.exception.TimeException;
-import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.ninja.NinjaHero;
 import com.javasaki.ninja.ninja.NinjaHeroService;
 import com.javasaki.ninja.security.JwtProvider;
