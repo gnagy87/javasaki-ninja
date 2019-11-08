@@ -13,6 +13,11 @@ public class FightResponseDTO {
 
   private List<NinjaFightDTO> fighters;
 
+
+  public FightResponseDTO(List<NinjaFightDTO> fighters) {
+    this.fighters = fighters;
+  }
+
   public void addFighter(NinjaFightDTO fighter) {
     fighters.add(fighter);
   }
