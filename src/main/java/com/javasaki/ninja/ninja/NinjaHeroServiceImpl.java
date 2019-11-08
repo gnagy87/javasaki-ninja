@@ -153,6 +153,19 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     return new PrizeDTO("Work has been done. Time to have a rest.", ninjaHero.getMoney() - oldMoney);
   }
 
+  @Override
+  public MarketResponseDTO putWeaponToMarket(NinjaHero hero, WeaponMarketDTO weaponMarketDTO) throws WeaponException {
+    for (Weapon weapon : hero.getWeapons()) {
+      if (weapon.getWeaponType().toLowerCase().equals(weaponMarketDTO.getWeaponType().toLowerCase())) {
+        weapon.setOnMarket(true);
+        weapon.setUsed(false);
+        weapon.setPrice(weaponMarketDTO.getPrice());
+        return new MarketResponseDTO("You put your weapon to the market");
+      }
+    }
+    throw new WeaponException("There is no such weapon");
+  }
+
   private NinjaDTO improveOffence(NinjaHero ninjaHero) {
     ninjaHero.setHp(ninjaHero.hp + 1);
     ninjaHero.setOffence(ninjaHero.offence + 3);
