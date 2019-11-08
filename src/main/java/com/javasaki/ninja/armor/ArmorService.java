@@ -9,4 +9,6 @@ public interface ArmorService {
   Armor findArmorByType(String type) throws ArmorException;
 
   List<Armor> findAllArmor();
+
+  Armor findArmorById(long armorId) throws ArmorException;
 }

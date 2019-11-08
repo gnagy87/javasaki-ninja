@@ -114,7 +114,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     if (!(type == null || type == "")) {
       Armor foundArmor = armorService.findArmorByType(type);
       for (Armor armor : ninjaHero.getArmors()) {
-        if (armor == foundArmor) {
+        if (armor == foundArmor && !armor.isOnMarket()) {
           armor.setUsed(true);
         } else {
           armor.setUsed(false);
@@ -129,7 +129,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     if (!(type == null || type == "")) {
       Weapon foundWeapon = weaponService.findWeaponByType(type);
       for (Weapon weapon : ninjaHero.getWeapons()) {
-        if (weapon == foundWeapon) {
+        if (weapon == foundWeapon && !weapon.isOnMarket()) {
           weapon.setUsed(true);
         } else {
           weapon.setUsed(false);
@@ -157,7 +157,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   @Override
   public MarketResponseDTO putWeaponToMarket(NinjaHero hero, WeaponMarketDTO weaponMarketDTO) throws WeaponException {
     for (Weapon weapon : hero.getWeapons()) {
-      if (weapon.getWeaponType().toLowerCase().equals(weaponMarketDTO.getWeaponType().toLowerCase())) {
+      if (weapon.getId() == weaponMarketDTO.getWeaponId()) {
         weapon.setOnMarket(true);
         weapon.setUsed(false);
         weapon.setPrice(weaponMarketDTO.getPrice());
@@ -170,7 +170,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   @Override
   public MarketResponseDTO putArmorToMarket(NinjaHero ninjaHero, ArmorMarketDTO armorMarketDTO) throws ArmorException {
     for (Armor armor : ninjaHero.getArmors()) {
-      if (armor.getClass().getSimpleName().toLowerCase().equals(armorMarketDTO.getArmorType())) {
+      if (armor.getId() == armorMarketDTO.getArmodId()) {
         armor.setOnMarket(true);
         armor.setUsed(false);
         armor.setPrice(armorMarketDTO.getPrice());
@@ -179,6 +179,31 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     }
     throw new ArmorException("There is no such armor");
   }
+
+  @Override
+  public MarketResponseDTO buyWeapon(NinjaHero ninjaHero, long weaponId) throws WeaponException, MoneyException {
+    Weapon weapon = weaponService.findWeaponById(weaponId);
+    purchaseService.checkMoneyForWeapon(ninjaHero, weapon);
+    ninjaHero.setMoney(ninjaHero.getMoney() - weapon.getPrice());
+    weapon.setNinjaHero(ninjaHero);
+    weapon.setOnMarket(false);
+    ninjaHero.addWeapon(weapon);
+    ninjaHeroRepository.save(ninjaHero);
+    return new MarketResponseDTO("You bought a " + weapon.getWeaponType());
+  }
+
+  @Override
+  public MarketResponseDTO buyArmor(NinjaHero ninjaHero, long armorId) throws ArmorException, MoneyException {
+    Armor armor = armorService.findArmorById(armorId);
+    purchaseService.checkMoneyForArmor(ninjaHero,armor);
+    ninjaHero.setMoney(ninjaHero.getMoney() - armor.getPrice());
+    armor.setNinjaHero(ninjaHero);
+    armor.setOnMarket(false);
+    ninjaHero.addArmor(armor);
+    ninjaHeroRepository.save(ninjaHero);
+    return new MarketResponseDTO("You bought a " + armor.getClass().getSimpleName());
+  }
+
 
   private NinjaDTO improveOffence(NinjaHero ninjaHero) {
     ninjaHero.setHp(ninjaHero.hp + 1);

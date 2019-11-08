@@ -24,4 +24,8 @@ public interface NinjaHeroService {
   MarketResponseDTO putWeaponToMarket(NinjaHero hero, WeaponMarketDTO weaponMarketDTO) throws WeaponException;
 
   MarketResponseDTO putArmorToMarket(NinjaHero ninjaHero, ArmorMarketDTO armorMarketDTO) throws ArmorException;
+
+  MarketResponseDTO buyWeapon(NinjaHero ninjaHero, long weaponId) throws WeaponException, MoneyException;
+
+  MarketResponseDTO buyArmor(NinjaHero ninjaHero, long armorId) throws ArmorException, MoneyException;
 }

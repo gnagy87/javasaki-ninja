@@ -9,4 +9,6 @@ public interface WeaponService {
   Weapon findWeaponByType(String type) throws WeaponException;
 
   List<Weapon> findAllWeapon();
+
+  Weapon findWeaponById(long weaponId) throws WeaponException;
 }

@@ -55,4 +55,8 @@ public abstract class NinjaHero {
   public void addWeapon(Weapon weapon) {
     this.weapons.add(weapon);
   }
+
+  public void addArmor(Armor armor) {
+    this.armors.add(armor);
+  }
 }
