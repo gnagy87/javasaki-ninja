@@ -1,15 +1,13 @@
 package com.javasaki.ninja.user;
 
+import com.javasaki.ninja.armor.Armor;
 import com.javasaki.ninja.challenger.Challenger;
 import com.javasaki.ninja.dto.ChallengerDTO;
 import com.javasaki.ninja.dto.RegisterDTO;
 import com.javasaki.ninja.dto.RegisterResponseDTO;
 import com.javasaki.ninja.email.EmailService;
 import com.javasaki.ninja.email.VerificationToken;
-import com.javasaki.ninja.exception.EmailVerificationException;
-import com.javasaki.ninja.exception.NinjaException;
-import com.javasaki.ninja.exception.UserNinjaException;
-import com.javasaki.ninja.exception.WeaponException;
+import com.javasaki.ninja.exception.*;
 import com.javasaki.ninja.factory.Factory;
 import com.javasaki.ninja.ninja.NinjaHero;
 import com.javasaki.ninja.weapon.Weapon;
@@ -49,7 +47,7 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   }
 
   @Override
-  public RegisterResponseDTO registration(RegisterDTO registerDTO) throws UserNinjaException, NinjaException, WeaponException {
+  public RegisterResponseDTO registration(RegisterDTO registerDTO) throws UserNinjaException, NinjaException, WeaponException, ArmorException {
     if (!isUserExists(registerDTO.getUsername())) {
       UserNinja userNinja = saveUserNinja(registerDTO);
 
@@ -63,7 +61,7 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   }
 
   @Override
-  public UserNinja saveUserNinja(RegisterDTO registerDTO) throws NinjaException, WeaponException {
+  public UserNinja saveUserNinja(RegisterDTO registerDTO) throws NinjaException, WeaponException, ArmorException {
     NinjaHero hero = factory.createNinja(registerDTO.getHeroType(), registerDTO.getHeroName());
     hero.setMoney(1000);
     Weapon weapon = factory.createWeapon("bamboo");
@@ -72,6 +70,12 @@ public class UserNinjaServiceImpl implements UserNinjaService {
     weapon.setUsed(true);
     weapons.add(weapon);
     hero.setWeapons(weapons);
+    List<Armor> armors = new ArrayList<>();
+    Armor armor = factory.createArmor("shirt");
+    armor.setNinjaHero(hero);
+    armor.setUsed(true);
+    armors.add(armor);
+    hero.setArmors(armors);
     UserNinja user = new UserNinja(registerDTO.getUsername(), encoder.encode(registerDTO.getPassword()), registerDTO.getEmail());
     user.setNinjaHero(hero);
     hero.setUserNinja(user);

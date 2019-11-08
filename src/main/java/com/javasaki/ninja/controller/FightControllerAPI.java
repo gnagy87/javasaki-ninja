@@ -40,10 +40,10 @@ public class FightControllerAPI {
   @PutMapping("/fight")
   public ResponseEntity fight(@RequestBody FightDTO fightDTO, HttpServletRequest request) {
     try {
-      fightService.fighters(fightDTO.getChallenger(), fightDTO.getChallenged());
+      return ResponseEntity.status(200).body(fightService.fighters(fightDTO.getChallenger(), fightDTO.getChallenged()));
     } catch (Exception e) {
       e.printStackTrace();
+      return ResponseEntity.status(200).body(e.getMessage());
     }
-    return ResponseEntity.status(200).build();
   }
 }

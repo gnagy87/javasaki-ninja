@@ -13,6 +13,12 @@ public enum ArmorType {
       return new Skin();
     }
   },
+  SHIRT {
+    @Override
+    public Armor createArmor() {
+      return new Shirt();
+    }
+  },
   STEEL {
     @Override
     public Armor createArmor() {
