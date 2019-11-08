@@ -166,6 +166,19 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     throw new WeaponException("There is no such weapon");
   }
 
+  @Override
+  public MarketResponseDTO putArmorToMarket(NinjaHero ninjaHero, ArmorMarketDTO armorMarketDTO) throws ArmorException {
+    for (Armor armor : ninjaHero.getArmors()) {
+      if (armor.getClass().getSimpleName().toLowerCase().equals(armorMarketDTO.getArmorType())) {
+        armor.setOnMarket(true);
+        armor.setUsed(false);
+        armor.setPrice(armorMarketDTO.getPrice());
+        return new MarketResponseDTO("You put your weapon to the market");
+      }
+    }
+    throw new ArmorException("There is no such armor");
+  }
+
   private NinjaDTO improveOffence(NinjaHero ninjaHero) {
     ninjaHero.setHp(ninjaHero.hp + 1);
     ninjaHero.setOffence(ninjaHero.offence + 3);
