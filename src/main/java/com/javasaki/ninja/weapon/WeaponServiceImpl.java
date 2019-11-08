@@ -4,6 +4,9 @@ import com.javasaki.ninja.exception.WeaponException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class WeaponServiceImpl implements WeaponService {
 
@@ -17,5 +20,12 @@ public class WeaponServiceImpl implements WeaponService {
   @Override
   public Weapon findWeaponByType(String type) throws WeaponException {
     return weaponRepository.findWeaponByWeaponType(type).orElseThrow(() -> new WeaponException("There is no such weapon!"));
+  }
+
+  @Override
+  public List<Weapon> findAllWeapon() {
+    List<Weapon> result = new ArrayList<>();
+    weaponRepository.findAll().forEach(result::add);
+    return result;
   }
 }

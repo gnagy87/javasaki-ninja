@@ -15,6 +15,7 @@ public class ArmorDTO {
   private int price;
   private int armor;
   private boolean isUsed;
+  private boolean isOnMarket;
 
   public ArmorDTO(Armor armor) {
     this.in = armor.getId();
@@ -22,5 +23,6 @@ public class ArmorDTO {
     this.price = armor.getPrice();
     this.armor = armor.getArmor();
     this.isUsed = armor.isUsed();
+    this.isOnMarket = armor.isOnMarket();
   }
 }

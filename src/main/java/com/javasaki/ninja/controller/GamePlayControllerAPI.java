@@ -1,5 +1,6 @@
 package com.javasaki.ninja.controller;
 
+import com.javasaki.ninja.armor.ArmorService;
 import com.javasaki.ninja.dto.*;
 import com.javasaki.ninja.errors.RobberyError;
 import com.javasaki.ninja.errors.StatusMessageDTO;
@@ -10,6 +11,7 @@ import com.javasaki.ninja.ninja.NinjaHero;
 import com.javasaki.ninja.ninja.NinjaHeroService;
 import com.javasaki.ninja.security.JwtProvider;
 import com.javasaki.ninja.user.UserNinjaService;
+import com.javasaki.ninja.weapon.WeaponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +24,18 @@ public class GamePlayControllerAPI {
   private NinjaHeroService ninjaHeroService;
   private JwtProvider jwtProvider;
   private UserNinjaService userNinjaService;
+//  private WeaponService weaponService;
+//  private ArmorService armorService;
 
   @Autowired
   public GamePlayControllerAPI(NinjaHeroService ninjaHeroService, JwtProvider jwtProvider,
-                               UserNinjaService userNinjaService) {
+                               UserNinjaService userNinjaService/*, WeaponService weaponService,
+                               ArmorService armorService*/) {
     this.ninjaHeroService = ninjaHeroService;
     this.jwtProvider = jwtProvider;
     this.userNinjaService = userNinjaService;
+//    this.weaponService = weaponService;
+//    this.armorService = armorService;
   }
 
   @PostMapping("/robbery")
@@ -94,5 +101,10 @@ public class GamePlayControllerAPI {
       return ResponseEntity.status(400).body(err.getMessage());
     }
   }
+
+//  @GetMapping("/market")
+//  public ResponseEntity getMatket() {
+//    return ResponseEntity.status(200).body(new MarketDTO(weaponService.findAllWeapon(),armorService.findAllArmor()));
+//  }
 }
 
