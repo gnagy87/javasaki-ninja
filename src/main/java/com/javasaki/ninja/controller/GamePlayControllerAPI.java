@@ -76,7 +76,7 @@ public class GamePlayControllerAPI {
     try {
       NinjaDTO ninjaDTO = ninjaHeroService.trainNinjaHero(userNinjaService.getIdFromToken(request), trainDTO);
       return ResponseEntity.status(200).body(ninjaDTO);
-    } catch (NinjaException | MoneyException e) {
+    } catch (MoneyException | TimeException e) {
       return ResponseEntity.status(409).body(e.getMessage());
     }
   }

@@ -77,12 +77,15 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   }
 
   @Override
-  public NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException, MoneyException {
+  public NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws TimeException, MoneyException {
     NinjaHero ninjaHero = ninjaHeroRepository.findById(id).get();
 
     purchaseService.enoughMoneyForTrain(ninjaHero, 100);
     String trainType = trainDTO.getTrain();
-    if (timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
+    if (!timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
+      throw new TimeException("You can't train because you have another activity, you just train in a minute! You have to wait: "
+      + (ninjaHero.getFinishedAt() - System.currentTimeMillis() / 1000) + " second");
+    }
       if (trainType.equals("offence")) {
         improveOffence(ninjaHero);
       }
@@ -92,13 +95,11 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
       if (trainType.equals("speed")) {
         improveSpeed(ninjaHero);
       }
-      ninjaHero.setFinishedAt(ninjaHero.getFinishedAt() + 60);
+      ninjaHero.setFinishedAt(System.currentTimeMillis() / 1000 + 60);
       ninjaHero.setMoney(ninjaHero.getMoney() - 100);
       ninjaHero.setTraining(true);
       ninjaHeroRepository.save(ninjaHero);
       return new NinjaDTO(ninjaHero);
-    }
-    throw new NinjaException("You can't train, because you have another activity!");
   }
 
   @Override
