@@ -122,7 +122,7 @@ public class UserNinjaServiceImpl implements UserNinjaService {
 
   @Override
   public String saveChallenger(ChallengerDTO challenger, UserNinja user) throws UserNinjaException {
-    if (!userNinjaRepository.findUserNinjaByUsername(challenger.getChallengedName()).isPresent()) {
+    if (userNinjaRepository.findUserNinjaByUsername(challenger.getChallengedName()).isPresent()) {
       throw  new UserNinjaException("User with name: " + challenger.getChallengedName() + " doesn't exists!");
     }
     user.getChallengers().add(new Challenger(challenger.getChallengedName(),challenger.getBet()));
