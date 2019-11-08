@@ -11,4 +11,9 @@ public class FightDTO {
 
   private String challenger;
   private String challenged;
+
+  public FightDTO(String challenger, String challenged) {
+    this.challenger = challenger;
+    this.challenged = challenged;
+  }
 }
