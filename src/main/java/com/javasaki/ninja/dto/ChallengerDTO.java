@@ -11,4 +11,9 @@ public class ChallengerDTO {
 
   private String challengedName;
   private int bet;
+
+  public ChallengerDTO(String challengedName, int bet) {
+    this.challengedName = challengedName;
+    this.bet = bet;
+  }
 }

@@ -2,6 +2,7 @@ package com.javasaki.ninja.controller;
 
 import com.javasaki.ninja.dto.FightDTO;
 import com.javasaki.ninja.dto.ChallengerDTO;
+import com.javasaki.ninja.dto.NinjaDTO;
 import com.javasaki.ninja.exception.UserNinjaException;
 import com.javasaki.ninja.fight.FightService;
 import com.javasaki.ninja.user.UserNinja;
@@ -30,8 +31,7 @@ public class FightControllerAPI {
   public ResponseEntity challengePlayer(@RequestBody ChallengerDTO challengerDTO, HttpServletRequest request) {
     UserNinja userNinja = userNinjaService.findUserNinjaByUsername(userNinjaService.getUsernameFromToken(request));
     try {
-      userNinjaService.saveChallenger(challengerDTO, userNinja);
-      return ResponseEntity.status(200).body(userNinjaService.findUserNinjaByUsername(challengerDTO.getChallengedName()));
+      return ResponseEntity.status(200).body(new NinjaDTO(userNinjaService.saveChallenger(challengerDTO, userNinja).getNinjaHero()));
     } catch (UserNinjaException e) {
       return ResponseEntity.status(400).body(e.getMessage());
     }

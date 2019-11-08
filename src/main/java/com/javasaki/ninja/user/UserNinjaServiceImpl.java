@@ -2,6 +2,7 @@ package com.javasaki.ninja.user;
 
 import com.javasaki.ninja.armor.Armor;
 import com.javasaki.ninja.challenger.Challenger;
+import com.javasaki.ninja.challenger.ChallengerRepository;
 import com.javasaki.ninja.dto.ChallengerDTO;
 import com.javasaki.ninja.dto.RegisterDTO;
 import com.javasaki.ninja.dto.RegisterResponseDTO;
@@ -28,16 +29,19 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   private EmailService emailService;
   private PasswordEncoder encoder;
   private JwtProvider jwtProvider;
+  private ChallengerRepository challengerRepository;
 
   @Autowired
   public UserNinjaServiceImpl(UserNinjaRepository userNinjaRepository,
                               Factory factory, PasswordEncoder encoder,
-                              JwtProvider jwtProvider, EmailService emailService) {
+                              JwtProvider jwtProvider, EmailService emailService,
+                              ChallengerRepository challengerRepository) {
     this.userNinjaRepository = userNinjaRepository;
     this.factory = factory;
     this.encoder = encoder;
     this.jwtProvider = jwtProvider;
     this.emailService = emailService;
+    this.challengerRepository = challengerRepository;
 
   }
 
@@ -121,12 +125,15 @@ public class UserNinjaServiceImpl implements UserNinjaService {
   }
 
   @Override
-  public String saveChallenger(ChallengerDTO challenger, UserNinja user) throws UserNinjaException {
+  public UserNinja saveChallenger(ChallengerDTO challenger, UserNinja user) throws UserNinjaException {
     if (userNinjaRepository.findUserNinjaByUsername(challenger.getChallengedName()).isPresent()) {
-      throw  new UserNinjaException("User with name: " + challenger.getChallengedName() + " doesn't exists!");
+
+      Challenger challenger1 = new Challenger(challenger.getChallengedName(), challenger.getBet());
+      challenger1.setUserNinja(user);
+      challengerRepository.save(challenger1);
+      userNinjaRepository.save(user);
+      return user;
     }
-    user.getChallengers().add(new Challenger(challenger.getChallengedName(),challenger.getBet()));
-    userNinjaRepository.save(user);
-    return challenger.getChallengedName();
+    throw  new UserNinjaException("User with name: " + challenger.getChallengedName() + " doesn't exists!");
   }
 }

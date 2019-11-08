@@ -28,5 +28,5 @@ public interface UserNinjaService {
 
   void enableUserByVerificationToken(String token) throws EmailVerificationException;
 
-  String saveChallenger(ChallengerDTO challenger, UserNinja user) throws UserNinjaException;
+  UserNinja saveChallenger(ChallengerDTO challenger, UserNinja user) throws UserNinjaException;
 }
