@@ -1,5 +1,6 @@
 package com.javasaki.ninja.user;
 
+import com.javasaki.ninja.challenger.Challenger;
 import com.javasaki.ninja.dto.ChallengerDTO;
 import com.javasaki.ninja.dto.RegisterDTO;
 import com.javasaki.ninja.dto.RegisterResponseDTO;
@@ -67,7 +68,6 @@ public class UserNinjaServiceImpl implements UserNinjaService {
     hero.setMoney(1000);
     Weapon weapon = factory.createWeapon("bamboo");
     List<Weapon> weapons = new ArrayList<>();
-    weapon.setOnMarket(true);
     weapon.setNinjaHero(hero);
     weapon.setUsed(true);
     weapons.add(weapon);
@@ -121,7 +121,7 @@ public class UserNinjaServiceImpl implements UserNinjaService {
     if (!userNinjaRepository.findUserNinjaByUsername(challenger.getChallengedName()).isPresent()) {
       throw  new UserNinjaException("User with name: " + challenger.getChallengedName() + " doesn't exists!");
     }
-    user.getChallengers().add(challenger);
+    user.getChallengers().add(new Challenger(challenger.getChallengedName(),challenger.getBet()));
     userNinjaRepository.save(user);
     return challenger.getChallengedName();
   }

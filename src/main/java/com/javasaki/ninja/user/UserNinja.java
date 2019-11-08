@@ -1,12 +1,13 @@
 package com.javasaki.ninja.user;
 
-import com.javasaki.ninja.dto.ChallengerDTO;
+import com.javasaki.ninja.challenger.Challenger;
 import com.javasaki.ninja.ninja.NinjaHero;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,7 +27,8 @@ public class UserNinja {
   @OneToOne(cascade = CascadeType.ALL, mappedBy = "userNinja")
   private NinjaHero ninjaHero;
 
-  private List<ChallengerDTO> challengers;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "userNinja")
+  private List<Challenger> challengers;
 
   public UserNinja() {
     this.isEnable = false;
@@ -37,5 +39,6 @@ public class UserNinja {
     this.password = password;
     this.email = email;
     this.isEnable = false;
+    this.challengers = new ArrayList<>();
   }
 }

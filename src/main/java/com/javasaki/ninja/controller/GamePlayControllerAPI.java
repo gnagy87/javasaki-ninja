@@ -24,18 +24,18 @@ public class GamePlayControllerAPI {
   private NinjaHeroService ninjaHeroService;
   private JwtProvider jwtProvider;
   private UserNinjaService userNinjaService;
-//  private WeaponService weaponService;
-//  private ArmorService armorService;
+  private WeaponService weaponService;
+  private ArmorService armorService;
 
   @Autowired
   public GamePlayControllerAPI(NinjaHeroService ninjaHeroService, JwtProvider jwtProvider,
-                               UserNinjaService userNinjaService/*, WeaponService weaponService,
-                               ArmorService armorService*/) {
+                               UserNinjaService userNinjaService, WeaponService weaponService,
+                               ArmorService armorService) {
     this.ninjaHeroService = ninjaHeroService;
     this.jwtProvider = jwtProvider;
     this.userNinjaService = userNinjaService;
-//    this.weaponService = weaponService;
-//    this.armorService = armorService;
+    this.weaponService = weaponService;
+    this.armorService = armorService;
   }
 
   @PostMapping("/robbery")
@@ -102,9 +102,9 @@ public class GamePlayControllerAPI {
     }
   }
 
-//  @GetMapping("/market")
-//  public ResponseEntity getMatket() {
-//    return ResponseEntity.status(200).body(new MarketDTO(weaponService.findAllWeapon(),armorService.findAllArmor()));
-//  }
+  @GetMapping("/market")
+  public ResponseEntity getMatket() {
+    return ResponseEntity.status(200).body(new MarketDTO(weaponService.findAllWeapon(),armorService.findAllArmor()));
+  }
 }
 
