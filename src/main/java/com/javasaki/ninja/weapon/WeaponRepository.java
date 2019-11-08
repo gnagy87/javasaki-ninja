@@ -9,4 +9,7 @@ import java.util.Optional;
 public interface WeaponRepository extends CrudRepository<Weapon, Long> {
 
   Optional<Weapon> findWeaponByWeaponType(String type);
+
+  @Override
+  Iterable<Weapon> findAll();
 }

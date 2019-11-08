@@ -8,6 +8,4 @@ import java.util.Optional;
 public interface UserNinjaRepository extends CrudRepository<UserNinja, Long> {
 
   Optional<UserNinja> findUserNinjaByUsername(String username);
-
-
 }

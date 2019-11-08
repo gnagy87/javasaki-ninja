@@ -20,6 +20,7 @@ public abstract class Armor {
   protected int price;
   protected int armor;
   protected boolean isUsed;
+  protected boolean isOnMarket;
 
   @ManyToOne
   private NinjaHero ninjaHero;
@@ -27,5 +28,6 @@ public abstract class Armor {
   public Armor(String type) {
     this.type = type;
     this.isUsed = false;
+    this.isOnMarket = false;
   }
 }
