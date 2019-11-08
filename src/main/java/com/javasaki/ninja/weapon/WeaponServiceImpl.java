@@ -28,4 +28,9 @@ public class WeaponServiceImpl implements WeaponService {
     weaponRepository.findAll().forEach(result::add);
     return result;
   }
+
+  @Override
+  public Weapon findWeaponById(long weaponId) throws WeaponException {
+    return weaponRepository.findById(weaponId).orElseThrow(() -> new WeaponException("There is no such weapon with id: " + weaponId));
+  }
 }

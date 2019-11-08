@@ -28,4 +28,9 @@ public class ArmorServiceImpl implements ArmorService {
     armorRepository.findAll().forEach(result::add);
     return result;
   }
+
+  @Override
+  public Armor findArmorById(long armorId) throws ArmorException {
+    return armorRepository.findById(armorId).orElseThrow(() -> new ArmorException("There is no such armor with id: " + armorId));
+  }
 }

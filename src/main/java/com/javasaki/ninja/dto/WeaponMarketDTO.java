@@ -9,11 +9,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class WeaponMarketDTO {
 
-  private String weaponType;
+  private long weaponId;
   private int price;
 
-  public WeaponMarketDTO(String weaponType, int price) {
-    this.weaponType = weaponType;
+  public WeaponMarketDTO(Long weaponId, int price) {
+    this.weaponId = weaponId;
     this.price = price;
   }
 }

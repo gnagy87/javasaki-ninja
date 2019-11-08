@@ -122,5 +122,25 @@ public class GamePlayControllerAPI {
       return ResponseEntity.status(400).body(new StatusMessageDTO(err.getMessage()));
     }
   }
+
+  @PutMapping("/market/weapon/{weaponId}")
+  public ResponseEntity buyWeaponFromMarket(@PathVariable(name = "weaponId") long weaponId, HttpServletRequest request) {
+    try {
+      NinjaHero hero = ninjaHeroService.findNinjaById(userNinjaService.getIdFromToken(request));
+      return ResponseEntity.status(200).body(ninjaHeroService.buyWeapon(hero, weaponId));
+    } catch (Exception err) {
+      return ResponseEntity.status(400).body(new StatusMessageDTO(err.getMessage()));
+    }
+  }
+
+  @PutMapping("/market/armor/{armorId}")
+  public ResponseEntity buyArmorFromMarket(@PathVariable(name = "armorId") long armorId, HttpServletRequest request) {
+    try {
+      NinjaHero hero = ninjaHeroService.findNinjaById(userNinjaService.getIdFromToken(request));
+      return ResponseEntity.status(200).body(ninjaHeroService.buyArmor(hero, armorId));
+    } catch (Exception err) {
+      return ResponseEntity.status(400).body(new StatusMessageDTO(err.getMessage()));
+    }
+  }
 }
 
