@@ -1,7 +1,6 @@
 package com.javasaki.ninja.fight;
 
 import com.javasaki.ninja.armor.Armor;
-import com.javasaki.ninja.dto.FightResponseDTO;
 import com.javasaki.ninja.dto.NinjaFightDTO;
 import com.javasaki.ninja.ninja.NinjaHero;
 import com.javasaki.ninja.ninja.NinjaHeroRepository;
@@ -43,7 +42,6 @@ public class FightServiceImpl implements FightService {
   private List<NinjaFightDTO> somethingFight(NinjaHero fighter1, NinjaHero fighter2) {
     Weapon fighter1Weapon = getTheWeapon(fighter1);
     Armor fighter1Armor = getTheArmor(fighter1);
-    FightResponseDTO responseDTO = new FightResponseDTO();
     List<NinjaFightDTO> resultOfFight = new ArrayList<>();
     Weapon fighter2Weapon = getTheWeapon(fighter2);
     Armor fighter2Armor = getTheArmor(fighter2);
