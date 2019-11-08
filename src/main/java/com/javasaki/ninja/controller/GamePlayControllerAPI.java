@@ -6,7 +6,6 @@ import com.javasaki.ninja.errors.RobberyError;
 import com.javasaki.ninja.errors.StatusMessageDTO;
 import com.javasaki.ninja.exception.MoneyException;
 import com.javasaki.ninja.exception.TimeException;
-import com.javasaki.ninja.exception.NinjaException;
 import com.javasaki.ninja.ninja.NinjaHero;
 import com.javasaki.ninja.ninja.NinjaHeroService;
 import com.javasaki.ninja.user.UserNinjaService;
@@ -73,7 +72,7 @@ public class GamePlayControllerAPI {
     try {
       NinjaDTO ninjaDTO = ninjaHeroService.trainNinjaHero(userNinjaService.getIdFromToken(request), trainDTO);
       return ResponseEntity.status(200).body(ninjaDTO);
-    } catch (NinjaException | MoneyException e) {
+    } catch (TimeException | MoneyException e) {
       return ResponseEntity.status(409).body(new StatusMessageDTO(e.getMessage()));
     }
   }

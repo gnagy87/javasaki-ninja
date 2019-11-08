@@ -36,7 +36,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     NinjaHero ninjaHero = ninjaHeroRepository.findNinjaHeroByUserNinjaId(userId);
     if (!timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
       throw new TimeException("Time need to be elapsed until perform next activity (in sec): "
-          + (ninjaHero.getFinishedAt() - (System.currentTimeMillis() / 1000)));
+              + (ninjaHero.getFinishedAt() - (System.currentTimeMillis() / 1000)));
     }
     if (rndGenerator() < 8) {
       int oldMoney = ninjaHero.getMoney();
@@ -50,7 +50,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
       ninjaHero.setFinishedAt((System.currentTimeMillis() / 1000) + 7200);
       ninjaHeroRepository.save(ninjaHero);
       return new PrizeDTO("You have been arrested. Time need to be elapsed until perform next activity (in sec): "
-          + (ninjaHero.getFinishedAt() - (System.currentTimeMillis() / 1000)), 0);
+              + (ninjaHero.getFinishedAt() - (System.currentTimeMillis() / 1000)), 0);
     }
   }
 
@@ -77,28 +77,29 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   }
 
   @Override
-  public NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException, MoneyException {
+  public NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws TimeException, MoneyException {
     NinjaHero ninjaHero = ninjaHeroRepository.findById(id).get();
 
     purchaseService.enoughMoneyForTrain(ninjaHero, 100);
     String trainType = trainDTO.getTrain();
-    if (timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
-      if (trainType.equals("offence")) {
-        improveOffence(ninjaHero);
-      }
-      if (trainType.equals("defence")) {
-        improveDefence(ninjaHero);
-      }
-      if (trainType.equals("speed")) {
-        improveSpeed(ninjaHero);
-      }
-      ninjaHero.setFinishedAt(ninjaHero.getFinishedAt() + 60);
-      ninjaHero.setMoney(ninjaHero.getMoney() - 100);
-      ninjaHero.setTraining(true);
-      ninjaHeroRepository.save(ninjaHero);
-      return new NinjaDTO(ninjaHero);
+    if (!timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
+      throw new TimeException("You can't train because you have another activity, you just train in a minute! You have to wait: "
+              + (ninjaHero.getFinishedAt() - System.currentTimeMillis() / 1000) + " second");
     }
-    throw new NinjaException("You can't train, because you have another activity!");
+    if (trainType.equals("offence")) {
+      improveOffence(ninjaHero);
+    }
+    if (trainType.equals("defence")) {
+      improveDefence(ninjaHero);
+    }
+    if (trainType.equals("speed")) {
+      improveSpeed(ninjaHero);
+    }
+    ninjaHero.setFinishedAt(System.currentTimeMillis() / 1000 + 60);
+    ninjaHero.setMoney(ninjaHero.getMoney() - 100);
+    ninjaHero.setTraining(true);
+    ninjaHeroRepository.save(ninjaHero);
+    return new NinjaDTO(ninjaHero);
   }
 
   @Override
@@ -142,7 +143,7 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     NinjaHero ninjaHero = ninjaHeroRepository.findNinjaHeroByUserNinjaId(userId);
     if (!timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
       throw new TimeException("Time need to be elapsed until perform next activity (in sec): "
-          + (ninjaHero.getFinishedAt() - System.currentTimeMillis() / 1000));
+              + (ninjaHero.getFinishedAt() - System.currentTimeMillis() / 1000));
     }
 
     int oldMoney = ninjaHero.getMoney();

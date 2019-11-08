@@ -11,7 +11,7 @@ public interface NinjaHeroService {
 
   int dailyBonus(long id) throws TimeException;
 
-  NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws NinjaException, MoneyException;
+  NinjaDTO trainNinjaHero(long id, TrainDTO trainDTO) throws MoneyException, TimeException;
 
   void setEquipment(NinjaHero ninjaHero, EquipmentDTO equipmentDTO) throws ArmorException, WeaponException;
 
