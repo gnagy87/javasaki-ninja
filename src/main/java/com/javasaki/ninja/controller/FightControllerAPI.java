@@ -3,6 +3,7 @@ package com.javasaki.ninja.controller;
 import com.javasaki.ninja.dto.FightDTO;
 import com.javasaki.ninja.dto.ChallengerDTO;
 import com.javasaki.ninja.dto.NinjaDTO;
+import com.javasaki.ninja.errors.StatusMessageDTO;
 import com.javasaki.ninja.exception.UserNinjaException;
 import com.javasaki.ninja.fight.FightService;
 import com.javasaki.ninja.user.UserNinja;
@@ -33,17 +34,17 @@ public class FightControllerAPI {
     try {
       return ResponseEntity.status(200).body(new NinjaDTO(userNinjaService.saveChallenger(challengerDTO, userNinja).getNinjaHero()));
     } catch (UserNinjaException e) {
-      return ResponseEntity.status(400).body(e.getMessage());
+      return ResponseEntity.status(400).body(new StatusMessageDTO(e.getMessage()));
     }
   }
 
   @PutMapping("/fight")
-  public ResponseEntity fight(@RequestBody FightDTO fightDTO, HttpServletRequest request) {
+  public ResponseEntity fight(@RequestBody FightDTO fightDTO) {
     try {
       return ResponseEntity.status(200).body(fightService.fighters(fightDTO.getChallenger(), fightDTO.getChallenged()));
     } catch (Exception e) {
       e.printStackTrace();
-      return ResponseEntity.status(200).body(e.getMessage());
+      return ResponseEntity.status(400).body(new StatusMessageDTO(e.getMessage()));
     }
   }
 }
