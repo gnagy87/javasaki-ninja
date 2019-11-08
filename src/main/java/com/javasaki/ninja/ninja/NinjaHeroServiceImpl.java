@@ -36,21 +36,21 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     NinjaHero ninjaHero = ninjaHeroRepository.findNinjaHeroByUserNinjaId(userId);
     if (!timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
       throw new TimeException("Time need to be elapsed until perform next activity (in sec): "
-          + (ninjaHero.getFinishedAt() - java.time.Instant.now().getEpochSecond()));
+          + (ninjaHero.getFinishedAt() - (System.currentTimeMillis() / 1000)));
     }
     if (rndGenerator() < 8) {
       int oldMoney = ninjaHero.getMoney();
       int money = oldMoney + (rndGenerator() * 100);
       ninjaHero.setMoney(money);
-      ninjaHero.setFinishedAt(java.time.Instant.now().getEpochSecond() + 120);
+      ninjaHero.setFinishedAt((System.currentTimeMillis() / 1000) + 120);
       ninjaHeroRepository.save(ninjaHero);
       return new PrizeDTO("Successful robbery performed.", ninjaHero.getMoney() - oldMoney);
     } else {
       ninjaHero.setInJail(true);
-      ninjaHero.setFinishedAt(java.time.Instant.now().getEpochSecond() + 7200);
+      ninjaHero.setFinishedAt((System.currentTimeMillis() / 1000) + 7200);
       ninjaHeroRepository.save(ninjaHero);
       return new PrizeDTO("You have been arrested. Time need to be elapsed until perform next activity (in sec): "
-          + (ninjaHero.getFinishedAt() - java.time.Instant.now().getEpochSecond()), 0);
+          + (ninjaHero.getFinishedAt() - (System.currentTimeMillis() / 1000)), 0);
     }
   }
 
@@ -67,11 +67,11 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
   public int dailyBonus(long id) throws TimeException {
     NinjaHero ninja = ninjaHeroRepository.findById(id).get();
     if (!timeService.expiredOrNot(ninja.getDailyBonusTime())) {
-      throw new TimeException("You have to wait " + ((ninja.getDailyBonusTime() - java.time.Instant.now().getEpochSecond()) / 60) + " minute(s) until the next bonus round!");
+      throw new TimeException("You have to wait " + ((ninja.getDailyBonusTime() - (System.currentTimeMillis() / 1000)) / 60) + " minute(s) until the next bonus round!");
     }
     int prize = bonusMoney();
     ninja.setMoney(ninja.getMoney() + prize);
-    ninja.setDailyBonusTime(java.time.Instant.now().getEpochSecond() + 86400);
+    ninja.setDailyBonusTime((System.currentTimeMillis() / 1000) + 86400);
     ninjaHeroRepository.save(ninja);
     return prize;
   }
@@ -142,13 +142,13 @@ public class NinjaHeroServiceImpl implements NinjaHeroService {
     NinjaHero ninjaHero = ninjaHeroRepository.findNinjaHeroByUserNinjaId(userId);
     if (!timeService.expiredOrNot(ninjaHero.getFinishedAt())) {
       throw new TimeException("Time need to be elapsed until perform next activity (in sec): "
-          + (ninjaHero.getFinishedAt() - java.time.Instant.now().getEpochSecond()));
+          + (ninjaHero.getFinishedAt() - System.currentTimeMillis() / 1000));
     }
 
     int oldMoney = ninjaHero.getMoney();
     int money = oldMoney + (rndGenerator() * 60);
     ninjaHero.setMoney(money);
-    ninjaHero.setFinishedAt(java.time.Instant.now().getEpochSecond() + 900);
+    ninjaHero.setFinishedAt((System.currentTimeMillis() / 1000) + 900);
     ninjaHeroRepository.save(ninjaHero);
     return new PrizeDTO("Work has been done. Time to have a rest.", ninjaHero.getMoney() - oldMoney);
   }

@@ -46,8 +46,8 @@ public abstract class NinjaHero {
     this.name = name + " son";
     this.isInJail = false;
     this.isTraining = false;
-    this.finishedAt = java.time.Instant.now().getEpochSecond();
-    this.dailyBonusTime = java.time.Instant.now().getEpochSecond();
+    this.finishedAt = System.currentTimeMillis() / 1000;
+    this.dailyBonusTime = System.currentTimeMillis() / 1000;
     this.weapons = new ArrayList<>();
     this.armors = new ArrayList<>();
   }
