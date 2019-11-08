@@ -16,6 +16,7 @@ public class WeaponDTO {
   private int defense;
   private int price;
   private boolean isUsed;
+  private boolean isOnMarket;
 
   public WeaponDTO(Weapon weapon) {
     this.id = weapon.getId();
@@ -25,5 +26,6 @@ public class WeaponDTO {
     this.defense = weapon.getDefense();
     this.price = weapon.getPrice();
     this.isUsed = weapon.isUsed();
+    this.isOnMarket = weapon.isOnMarket();
   }
 }

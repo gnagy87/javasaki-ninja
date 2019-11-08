@@ -4,6 +4,9 @@ import com.javasaki.ninja.exception.ArmorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ArmorServiceImpl implements ArmorService {
 
@@ -17,5 +20,12 @@ public class ArmorServiceImpl implements ArmorService {
   @Override
   public Armor findArmorByType(String type) throws ArmorException {
     return armorRepository.findArmorByType(type).orElseThrow(() -> new ArmorException("There is no such armor!"));
+  }
+
+  @Override
+  public List<Armor> findAllArmor() {
+    List<Armor> result = new ArrayList<>();
+    armorRepository.findAll().forEach(result::add);
+    return result;
   }
 }

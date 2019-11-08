@@ -22,6 +22,7 @@ public abstract class Weapon {
   protected int defense;
   protected int price;
   protected boolean isUsed;
+  protected boolean isOnMarket;
 
   @ManyToOne
   private NinjaHero ninjaHero;
@@ -29,5 +30,6 @@ public abstract class Weapon {
   public Weapon(String weaponType) {
     this.weaponType = weaponType;
     this.isUsed = false;
+    this.isOnMarket = false;
   }
 }
